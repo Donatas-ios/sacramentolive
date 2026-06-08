@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sacramento Live — Events in Sacramento, CA</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: #f8f5f0; color: #222; }
+
+    /* Header */
+    .site-header { background: #fff; border-bottom: 3px solid #d4a017;
+                   padding: 20px 24px; }
+    .site-header h1 { font-size: 2rem; font-weight: 800; color: #1a1a1a; }
+    .site-header p { color: #666; font-size: 0.95rem; margin-top: 4px; }
+
+    /* Day section */
+    .day-section { max-width: 1200px; margin: 32px auto; padding: 0 16px; }
+    .day-header { margin-bottom: 12px; }
+    .day-title { font-size: 1.4rem; font-weight: 700; color: #1a1a1a; }
+    .weather-bar { display: flex; align-items: center; gap: 8px;
+                   font-size: 0.9rem; color: #555; margin-top: 4px;
+                   background: #fff; border-radius: 6px; padding: 8px 12px;
+                   border: 1px solid #e0dbd3; display: inline-flex; }
+
+    /* Event grid */
+    .event-grid { display: grid;
+                  grid-template-columns: repeat(3, 1fr);
+                  gap: 14px; }
+    @media (max-width: 1024px) { .event-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .event-grid { grid-template-columns: 1fr; } }
+
+    /* Event card */
+    .event-card { background: #fff; border-radius: 8px;
+                  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+                  border-top: 4px solid var(--cat-color);
+                  padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+    .event-card.is-free { background: #f6fff7; }
+    .cat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+                 color: var(--cat-color); letter-spacing: .04em; }
+    .event-title a { font-size: 1rem; font-weight: 600; color: #1a1a1a;
+                     text-decoration: none; }
+    .event-title a:hover { text-decoration: underline; color: var(--cat-color); }
+    .event-meta { font-size: 0.82rem; color: #666; }
+    .badge-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+    .badge-free { background: #e8f5e9; color: #2e7d32; font-size: 0.75rem;
+                  font-weight: 700; padding: 3px 8px; border-radius: 12px; }
+    .badge-price { background: #fff3e0; color: #e65100; font-size: 0.75rem;
+                   font-weight: 600; padding: 3px 8px; border-radius: 12px; }
+    .btn-share { margin-left: auto; background: none; border: 1px solid #ddd;
+                 border-radius: 6px; padding: 4px 10px; font-size: 0.78rem;
+                 cursor: pointer; color: #555; }
+    .btn-share:hover { background: #f0f0f0; }
+
+    /* Category colors */
+    .cat-music     { --cat-color: #2196F3; }
+    .cat-food      { --cat-color: #FF5722; }
+    .cat-arts      { --cat-color: #9C27B0; }
+    .cat-sports    { --cat-color: #4CAF50; }
+    .cat-family    { --cat-color: #009688; }
+    .cat-community { --cat-color: #795548; }
+    .cat-nightlife { --cat-color: #3F51B5; }
+    .cat-festivals { --cat-color: #F44336; }
+
+    /* Footer */
+    footer { text-align: center; padding: 32px 16px; color: #999;
+             font-size: 0.8rem; border-top: 1px solid #e0dbd3; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Sacramento Live</h1>
+  <p>What's happening in Sacramento, CA — next 14 days</p>
+</header>
+
+{% for day in days %}
+<section class="day-section">
+  <div class="day-header">
+    <div class="day-title">{{ day.date.strftime('%A, %B %-d') }}</div>
+    {% if day.weather %}
+    <div class="weather-bar">
+      <span>{{ day.weather.icon }}</span>
+      <span>{{ day.weather.high }}° / {{ day.weather.low }}°F</span>
+      <span>·</span>
+      <span>{{ day.weather.condition }}</span>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if day.events %}
+  <div class="event-grid">
+    {% for event in day.events %}
+    <div class="event-card cat-{{ event.category.name.lower() }} {% if event.is_free %}is-free{% endif %}">
+      <div class="cat-label">{{ event.category.value | replace('&', '&amp;') }}</div>
+      <div class="event-title">
+        <a href="{{ event.url }}" target="_blank" rel="noopener">{{ event.title }}</a>
+      </div>
+      <div class="event-meta">
+        {% if event.time %}{{ event.time }}{% endif %}
+        {% if event.time and event.venue %} · {% endif %}
+        {% if event.venue %}{{ event.venue }}{% endif %}
+      </div>
+      <div class="badge-row">
+        {% if event.is_free %}
+          <span class="badge-free">FREE</span>
+        {% elif event.price %}
+          <span class="badge-price">{{ event.price }}</span>
+        {% endif %}
+        <button class="btn-share"
+                data-url="{{ event.url }}"
+                data-title="{{ event.title }}"
+                onclick="shareEvent(this)">Share</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="color:#999;font-style:italic">No events listed for this day.</p>
+  {% endif %}
+</section>
+{% endfor %}
+
+<footer>
+  Updated daily · Events sourced from Google, Eventbrite, VisitSacramento, Do916, Sacramento365, Sacramento Bee · Weather by Open-Meteo
+</footer>
+
+<script>
+function shareEvent(btn) {
+  const url = btn.dataset.url;
+  const title = btn.dataset.title;
+  if (navigator.share) {
+    navigator.share({ title: title, url: url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Share'; }, 1500);
+    });
+  }
+}
+</script>
+
+</body>
+</html>
