@@ -8,13 +8,6 @@ def _normalize(title: str) -> str:
     return re.sub(r"[^a-z0-9]", "", title.lower())
 
 
-def _completeness(e: Event) -> int:
-    return sum([
-        bool(e.description), bool(e.time), bool(e.venue),
-        bool(e.price), bool(e.url),
-    ])
-
-
 def combine(sources: list[list[Event]]) -> list[Event]:
     today = date.today()
     cutoff = today + timedelta(days=14)
@@ -29,20 +22,17 @@ def combine(sources: list[list[Event]]) -> list[Event]:
                 seen[key] = event
             else:
                 existing = seen[key]
-                if _completeness(event) > _completeness(existing):
-                    # keep original url but take richer record
-                    merged = Event(
-                        title=existing.title,
-                        date=existing.date,
-                        time=event.time or existing.time,
-                        venue=event.venue or existing.venue,
-                        description=event.description or existing.description,
-                        category=existing.category,
-                        url=existing.url,
-                        is_free=existing.is_free or event.is_free,
-                        price=event.price or existing.price,
-                        source=existing.source,
-                    )
-                    seen[key] = merged
+                seen[key] = Event(
+                    title=existing.title,
+                    date=existing.date,
+                    time=existing.time or event.time,
+                    venue=existing.venue or event.venue,
+                    description=existing.description or event.description,
+                    category=existing.category,
+                    url=existing.url,
+                    is_free=existing.is_free or event.is_free,
+                    price=existing.price or event.price,
+                    source=existing.source,
+                )
 
-    return sorted(seen.values(), key=lambda e: (e.date, e.time, e.title))
+    return sorted(seen.values(), key=lambda e: (e.date, e.time or "", e.title))

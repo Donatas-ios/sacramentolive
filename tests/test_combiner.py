@@ -59,6 +59,15 @@ def test_combine_deduplication_normalizes_title_case():
     assert len(result) == 1
 
 
+def test_combine_merges_fields_from_both_records():
+    e1 = make_event(title="Jazz Festival", days_ahead=1, description="Great show", time="")
+    e2 = make_event(title="Jazz Festival", days_ahead=1, description="", time="7pm")
+    result = combine([[e1], [e2]])
+    assert len(result) == 1
+    assert result[0].description == "Great show"
+    assert result[0].time == "7pm"
+
+
 def test_combine_merges_multiple_sources():
     a = [make_event(title="Event A", days_ahead=1)]
     b = [make_event(title="Event B", days_ahead=2)]
