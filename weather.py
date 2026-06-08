@@ -20,7 +20,7 @@ _WMO_MAP: list[tuple[set[int], str, str]] = [
 _URL = (
     "https://api.open-meteo.com/v1/forecast"
     "?latitude=38.5816&longitude=-121.4944"
-    "&daily=temperature_2m_max,temperature_2m_min,weathercode"
+    "&daily=temperature_2m_max,temperature_2m_min,weather_code"
     "&temperature_unit=fahrenheit"
     "&timezone=America%2FLos_Angeles"
     "&forecast_days=14"
@@ -49,7 +49,7 @@ def parse_weather_response(data: dict) -> dict[date, WeatherDay]:
         daily["time"],
         daily["temperature_2m_max"],
         daily["temperature_2m_min"],
-        daily["weathercode"],
+        daily["weather_code"],
     ):
         icon, condition = _wmo_to_weather(int(code))
         result[date.fromisoformat(iso)] = WeatherDay(

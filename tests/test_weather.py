@@ -7,7 +7,7 @@ MOCK_API_RESPONSE = {
         "time": ["2026-06-08", "2026-06-09"],
         "temperature_2m_max": [78.4, 82.1],
         "temperature_2m_min": [58.2, 61.0],
-        "weathercode": [0, 3]
+        "weather_code": [0, 3]
     }
 }
 
