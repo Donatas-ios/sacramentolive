@@ -1,4 +1,5 @@
 from __future__ import annotations
+import re
 from dataclasses import dataclass
 from datetime import date
 from enum import Enum
@@ -15,9 +16,11 @@ class Category(Enum):
     FESTIVALS = "Festivals & Fairs"
 
 
+# Order matters: first matching category wins. MUSIC before ARTS is intentional
+# (concerts/bands are common; opera/ballet/theater checked second).
 _KEYWORDS: dict[Category, list[str]] = {
-    Category.MUSIC: ["music", "concert", "jazz", "band", "orchestra", "symphony",
-                     "live music", " rock", "hip hop", "country", "singer", "dj set"],
+    Category.MUSIC: ["music", "jazz", "band", "orchestra", "symphony",
+                     "live music", "rock", "hip hop", "country", "singer", "dj set"],
     Category.FOOD: ["food", "drink", "beer", "wine", "restaurant", "dining",
                     "tasting", "brunch", "chef", "culinary", "farm to fork",
                     "cocktail", "brewery", "winery", "pop-up dinner"],
@@ -36,10 +39,14 @@ _KEYWORDS: dict[Category, list[str]] = {
 }
 
 
+def _matches_any(text: str, keywords: list[str]) -> bool:
+    return any(re.search(r'\b' + re.escape(kw) + r'\b', text) for kw in keywords)
+
+
 def infer_category(title: str, description: str) -> Category:
     text = (title + " " + description).lower()
     for category, keywords in _KEYWORDS.items():
-        if any(kw in text for kw in keywords):
+        if _matches_any(text, keywords):
             return category
     return Category.COMMUNITY
 

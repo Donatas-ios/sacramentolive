@@ -29,7 +29,10 @@ def test_infer_category_fallback():
 def test_infer_category_uses_description():
     assert infer_category("Saturday Event", "live jazz music all night") == Category.MUSIC
 
-def test_event_is_free_from_price():
+def test_infer_category_crocker_museum_is_arts_not_music():
+    assert infer_category("Crocker Art Museum Night", "") == Category.ARTS
+
+def test_event_dataclass_stores_is_free_flag():
     e = Event(
         title="Test", date=date.today(), time="", venue="",
         description="", category=Category.COMMUNITY,
