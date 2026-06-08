@@ -19,7 +19,7 @@
     .day-section { max-width: 1200px; margin: 32px auto; padding: 0 16px; }
     .day-header { margin-bottom: 12px; }
     .day-title { font-size: 1.4rem; font-weight: 700; color: #1a1a1a; }
-    .weather-bar { display: flex; align-items: center; gap: 8px;
+    .weather-bar { align-items: center; gap: 8px;
                    font-size: 0.9rem; color: #555; margin-top: 4px;
                    background: #fff; border-radius: 6px; padding: 8px 12px;
                    border: 1px solid #e0dbd3; display: inline-flex; }
@@ -95,12 +95,12 @@
     <div class="event-card cat-{{ event.category.name.lower() }} {% if event.is_free %}is-free{% endif %}">
       <div class="cat-label">{{ event.category.value | replace('&', '&amp;') }}</div>
       <div class="event-title">
-        <a href="{{ event.url }}" target="_blank" rel="noopener">{{ event.title }}</a>
+        <a href="{{ event.url | e }}" target="_blank" rel="noopener noreferrer">{{ event.title | e }}</a>
       </div>
       <div class="event-meta">
-        {% if event.time %}{{ event.time }}{% endif %}
+        {% if event.time %}{{ event.time | e }}{% endif %}
         {% if event.time and event.venue %} · {% endif %}
-        {% if event.venue %}{{ event.venue }}{% endif %}
+        {% if event.venue %}{{ event.venue | e }}{% endif %}
       </div>
       <div class="badge-row">
         {% if event.is_free %}
@@ -109,9 +109,9 @@
           <span class="badge-price">{{ event.price }}</span>
         {% endif %}
         <button class="btn-share"
-                data-url="{{ event.url }}"
-                data-title="{{ event.title }}"
-                onclick="shareEvent(this)">Share</button>
+                data-url="{{ event.url | e }}"
+                data-title="{{ event.title | e }}"
+                onclick="shareEvent(this)" type="button">Share</button>
       </div>
     </div>
     {% endfor %}
@@ -135,6 +135,9 @@ function shareEvent(btn) {
   } else {
     navigator.clipboard.writeText(url).then(() => {
       btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Share'; }, 1500);
+    }).catch(() => {
+      btn.textContent = 'Failed';
       setTimeout(() => { btn.textContent = 'Share'; }, 1500);
     });
   }
