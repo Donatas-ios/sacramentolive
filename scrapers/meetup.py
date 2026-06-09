@@ -8,7 +8,14 @@ from models import Event, infer_category
 
 logger = logging.getLogger(__name__)
 
-_URL = "https://www.meetup.com/find/?location=Sacramento%2C+CA&source=EVENTS&distance=25mi"
+_URL = "https://www.meetup.com/find/?location=Sacramento%2C+CA&source=EVENTS&distance=10mi"
+
+# Cities considered part of Sacramento for this site
+_SAC_CITIES = {
+    "sacramento", "west sacramento", "north sacramento", "south sacramento",
+    "rancho cordova", "elk grove", "citrus heights", "antelope", "arden",
+    "natomas", "midtown", "downtown", "oak park", "land park",
+}
 _TODAY = None  # patched in tests
 
 _MONTHS = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|" \
@@ -100,8 +107,13 @@ def scrape() -> list[Event]:
                     continue
                 seen_urls.add(url)
 
-                # skip online-only events
-                if "Online" in raw_text and "·" not in raw_text:
+                # skip online-only events entirely
+                if re.search(r'\bOnline\b', raw_text, re.IGNORECASE):
+                    continue
+
+                # skip events from groups explicitly in non-Sacramento cities
+                _EXCLUDE_CITIES = r'\b(folsom|roseville|rocklin|lincoln|auburn|woodland|davis|dixon|lodi|stockton|modesto|elk grove(?! ave)|rancho murieta|granite bay|fair oaks|orangevale|galt|isleton)\b'
+                if re.search(_EXCLUDE_CITIES, raw_text, re.IGNORECASE):
                     continue
 
                 event_date, time_str = _parse_date_time(raw_text)
