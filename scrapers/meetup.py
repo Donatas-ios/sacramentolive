@@ -8,14 +8,16 @@ from models import Event, infer_category
 
 logger = logging.getLogger(__name__)
 
-_URL = "https://www.meetup.com/find/?location=Sacramento%2C+CA&source=EVENTS&distance=10mi"
+_URL = "https://www.meetup.com/find/?location=Sacramento%2C+CA&source=EVENTS&distance=5mi"
 
-# Cities considered part of Sacramento for this site
-_SAC_CITIES = {
-    "sacramento", "west sacramento", "north sacramento", "south sacramento",
-    "rancho cordova", "elk grove", "citrus heights", "antelope", "arden",
-    "natomas", "midtown", "downtown", "oak park", "land park",
-}
+# Cities outside Sacramento proper — if mentioned in event title or group name, skip
+_NON_SAC_CITIES = re.compile(
+    r'\b(roseville|folsom|rocklin|lincoln|auburn|woodland|davis|dixon|'
+    r'fair oaks|granite bay|orangevale|rancho murieta|galt|elk grove|'
+    r'san francisco|oakland|berkeley|san jose|bay area|los angeles|'
+    r'chicago|seattle|portland|new york|denver|phoenix|houston|atlanta)\b',
+    re.IGNORECASE
+)
 _TODAY = None  # patched in tests
 
 _MONTHS = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|" \
@@ -111,30 +113,8 @@ def scrape() -> list[Event]:
                 if re.search(r'\bOnline\b', raw_text, re.IGNORECASE):
                     continue
 
-                # ALLOWLIST approach: only keep events that mention Sacramento
-                # or a recognised Sacramento neighbourhood/suburb, OR mention no city at all.
-                _SAC_TERMS = (
-                    r'\b(sacramento|sac town|sactown|midtown|downtown sac|'
-                    r'natomas|arden|rancho cordova|citrus heights|'
-                    r'west sacramento|north sacramento|elk grove|'
-                    r'land park|oak park|curtis park|tahoe park|'
-                    r'folsom blvd|watt ave|stockton blvd)\b'
-                )
-                # Any non-Sacramento US city mentioned → skip
-                _ANY_CITY = (
-                    r'\b(san francisco|los angeles|new york|chicago|seattle|portland|'
-                    r'denver|phoenix|austin|dallas|houston|atlanta|miami|boston|'
-                    r'las vegas|san diego|portland|minneapolis|detroit|nashville|'
-                    r'philadelphia|baltimore|washington dc|orlando|tampa|'
-                    r'roseville|rocklin|folsom|auburn|woodland|davis|stockton|'
-                    r'modesto|lodi|dixon|vacaville|fairfield|napa|vallejo|'
-                    r'oakland|berkeley|san jose|fremont|hayward|concord|'
-                    r'walnut creek|palo alto|santa clara|sunnyvale|livermore|'
-                    r'granite bay|fair oaks|orangevale|rancho murieta|galt)\b'
-                )
-                mentions_sac = bool(re.search(_SAC_TERMS, raw_text, re.IGNORECASE))
-                mentions_other_city = bool(re.search(_ANY_CITY, raw_text, re.IGNORECASE))
-                if mentions_other_city and not mentions_sac:
+                # skip if title or group name mentions a non-Sacramento city
+                if _NON_SAC_CITIES.search(raw_text):
                     continue
 
                 event_date, time_str = _parse_date_time(raw_text)
