@@ -129,6 +129,16 @@ def scrape() -> list[Event]:
                 if is_online:
                     venue = "Online"
 
+                # price detection — Meetup shows "Free" or "$X" in card text
+                is_free = bool(re.search(r'\bfree\b', raw_text, re.IGNORECASE))
+                price = ""
+                if not is_free:
+                    price_match = re.search(r'\$(\d+(?:\.\d+)?)', raw_text)
+                    price = f"${price_match.group(1)}" if price_match else ""
+                # Most Meetup events are free unless price is explicitly shown
+                if not is_free and not price:
+                    is_free = True
+
                 category = infer_category(title, "")
 
                 events.append(Event(
@@ -139,8 +149,8 @@ def scrape() -> list[Event]:
                     description="",
                     category=category,
                     url=url,
-                    is_free=False,
-                    price="",
+                    is_free=is_free,
+                    price=price,
                     source="meetup",
                 ))
             except Exception as e:
