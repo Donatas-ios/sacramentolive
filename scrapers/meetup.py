@@ -112,7 +112,15 @@ def scrape() -> list[Event]:
                     continue
 
                 # skip events from groups explicitly in non-Sacramento cities
-                _EXCLUDE_CITIES = r'\b(folsom|roseville|rocklin|lincoln|auburn|woodland|davis|dixon|lodi|stockton|modesto|elk grove(?! ave)|rancho murieta|granite bay|fair oaks|orangevale|galt|isleton)\b'
+                _EXCLUDE_CITIES = (
+                    r'\b(folsom|roseville|rocklin|lincoln|auburn|woodland|davis|dixon|'
+                    r'lodi|stockton|modesto|elk grove(?! ave)|rancho murieta|granite bay|'
+                    r'fair oaks|orangevale|galt|isleton|'
+                    r'san francisco|sf|bay area|oakland|berkeley|san jose|fremont|'
+                    r'hayward|concord|walnut creek|san mateo|palo alto|san leandro|'
+                    r'santa clara|sunnyvale|mountain view|milpitas|livermore|pleasanton|'
+                    r'dublin|san ramon|danville|martinez|antioch|pittsburg|brentwood)\b'
+                )
                 if re.search(_EXCLUDE_CITIES, raw_text, re.IGNORECASE):
                     continue
 
