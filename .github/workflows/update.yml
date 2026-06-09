@@ -26,6 +26,10 @@ jobs:
 
       - name: Run scraper and generator
         run: python run.py
+        env:
+          TICKETMASTER_API_KEY: ${{ secrets.TICKETMASTER_API_KEY }}
+          EVENTBRITE_API_KEY: ${{ secrets.EVENTBRITE_API_KEY }}
+          MEETUP_API_KEY: ${{ secrets.MEETUP_API_KEY }}
 
       - name: Commit and push updated site
         run: |

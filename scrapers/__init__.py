@@ -13,6 +13,9 @@ scrape_eventbrite = _try_import("eventbrite", "scrape")
 scrape_do916 = _try_import("do916", "scrape")
 scrape_sacramento365 = _try_import("sacramento365", "scrape")
 scrape_sacbee = _try_import("sacbee", "scrape")
+scrape_ticketmaster = _try_import("ticketmaster", "scrape")
+scrape_eventbrite_api = _try_import("eventbrite_api", "scrape")
+scrape_meetup = _try_import("meetup", "scrape")
 
 ALL_SCRAPERS = [s for s in [
     scrape_google,
@@ -21,4 +24,7 @@ ALL_SCRAPERS = [s for s in [
     scrape_do916,
     scrape_sacramento365,
     scrape_sacbee,
+    scrape_ticketmaster,
+    scrape_eventbrite_api,
+    scrape_meetup,
 ] if s is not None]
