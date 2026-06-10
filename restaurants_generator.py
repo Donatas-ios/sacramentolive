@@ -1,7 +1,7 @@
 """Generates docs/restaurants.html — Sacramento restaurants by cuisine."""
 from __future__ import annotations
 from pathlib import Path
-from restaurants_data import CUISINES, MAPS_LINK
+from restaurants_data import CUISINES
 from capitol_svg import CAPITOL_SVG
 
 _DEFAULT_OUTPUT = Path(__file__).parent / "docs" / "restaurants.html"
@@ -123,19 +123,6 @@ def generate_restaurants(output_path: Path = _DEFAULT_OUTPUT) -> None:
     .page-hero h2 {{ font-size: 1.7rem; font-weight: 800; color: #1a1a1a; }}
     .page-hero p {{ color: #666; font-size: 0.95rem; margin-top: 6px; line-height: 1.5; }}
 
-    /* ── Map banner ── */
-    .map-banner {{ display: flex; align-items: center; gap: 12px;
-                  background: #fff; border: 1px solid #e0dbd3; border-radius: 10px;
-                  padding: 14px 18px; margin-bottom: 24px;
-                  box-shadow: 0 1px 4px rgba(0,0,0,.06); }}
-    .map-banner-text {{ flex: 1; }}
-    .map-banner-text strong {{ font-size: 1rem; color: #1a1a1a; }}
-    .map-banner-text span {{ display: block; font-size: 0.85rem; color: #666; margin-top: 2px; }}
-    .btn-map-all {{ background: #d4a017; color: #fff; font-weight: 700;
-                   font-size: 0.85rem; padding: 9px 18px; border-radius: 8px;
-                   text-decoration: none; white-space: nowrap; }}
-    .btn-map-all:hover {{ background: #b8860b; }}
-
     /* ── Stats ── */
     .stats {{ display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }}
     .stat {{ background: #fff; border-radius: 8px; padding: 12px 20px;
@@ -237,15 +224,6 @@ def generate_restaurants(output_path: Path = _DEFAULT_OUTPUT) -> None:
   <div class="page-hero">
     <h2>🍽️ Sacramento Restaurants</h2>
     <p>Sacramento is America's Farm-to-Fork Capital — {total}+ top-rated restaurants across {len(CUISINES)} cuisines, sorted by Google Maps rating. Tap any name or address to open in Google Maps.</p>
-  </div>
-
-  <div class="map-banner">
-    <div style="font-size:2rem">🗺️</div>
-    <div class="map-banner-text">
-      <strong>View All Restaurants on a Map</strong>
-      <span>Explore Sacramento's dining scene in Google Maps</span>
-    </div>
-    <a href="{MAPS_LINK}" target="_blank" rel="noopener" class="btn-map-all">Open Map →</a>
   </div>
 
   <div class="stats">
