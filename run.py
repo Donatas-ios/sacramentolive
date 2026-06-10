@@ -9,6 +9,7 @@ from generator import generate
 from trivia_generator import generate_trivia
 from museums_generator import generate_museums
 from restaurants_generator import generate_restaurants
+from feedback_generator import generate_feedback
 from weather import fetch_forecast
 from scrapers import ALL_SCRAPERS
 
@@ -55,6 +56,9 @@ def main() -> None:
 
     generate_restaurants()
     logger.info("Generated docs/restaurants.html")
+
+    generate_feedback()
+    logger.info("Generated docs/feedback.html")
 
 
 if __name__ == "__main__":

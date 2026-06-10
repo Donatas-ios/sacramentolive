@@ -5,6 +5,7 @@ from datetime import date
 from pathlib import Path
 
 from trivia_data import FACTS, QUIZ
+from capitol_svg import CAPITOL_SVG
 
 _DEFAULT_OUTPUT = Path(__file__).parent / "docs" / "trivia.html"
 
@@ -63,11 +64,12 @@ def generate_trivia(output_path: Path = _DEFAULT_OUTPUT, today: date | None = No
            background: #f8f5f0; color: #222; }}
 
     .site-header {{ background: #fff; border-bottom: 3px solid #d4a017;
-                   padding: 20px 24px; }}
-    .site-header h1 {{ font-size: 2rem; font-weight: 800; color: #1a1a1a; }}
-    .site-header p {{ color: #666; font-size: 0.95rem; margin-top: 4px; }}
-    .site-nav {{ margin-top: 10px; }}
-    .site-nav {{ display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }}
+                   padding: 24px 24px 18px; text-align: center; }}
+    .header-title {{ display: inline-flex; align-items: center; gap: 14px; justify-content: center; }}
+    .capitol-icon {{ width: 60px; height: 65px; flex-shrink: 0; }}
+    .site-header h1 {{ font-size: 2.2rem; font-weight: 800; color: #1a1a1a; }}
+    .site-header p {{ color: #666; font-size: 0.95rem; margin-top: 6px; }}
+    .site-nav {{ margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }}
     .site-nav a {{ font-size: 0.85rem; color: #d4a017; font-weight: 600;
                   text-decoration: none; border: 1px solid #d4a017;
                   padding: 4px 12px; border-radius: 20px; }}
@@ -113,12 +115,16 @@ def generate_trivia(output_path: Path = _DEFAULT_OUTPUT, today: date | None = No
 <body>
 
 <header class="site-header">
-  <h1>Sacramento Live</h1>
-  <p>What's happening in Sacramento, CA — next 14 days</p>
+  <div class="header-title">
+    {CAPITOL_SVG}
+    <h1>Sacramento Live</h1>
+  </div>
+  <p>What's happening in Sacramento, CA</p>
   <nav class="site-nav">
     <a href="index.html">← Events</a>
     <a href="museums.html">🏛️ Museums</a>
     <a href="restaurants.html">🍽️ Restaurants</a>
+    <a href="feedback.html">✉️ Feedback</a>
   </nav>
 </header>
 

@@ -2,6 +2,7 @@
 from __future__ import annotations
 from pathlib import Path
 from restaurants_data import CUISINES, MAPS_LINK
+from capitol_svg import CAPITOL_SVG
 
 _DEFAULT_OUTPUT = Path(__file__).parent / "docs" / "restaurants.html"
 _MAX_PER_GROUP = 15
@@ -107,7 +108,7 @@ def generate_restaurants(output_path: Path = _DEFAULT_OUTPUT) -> None:
     .site-header {{ background: #fff; border-bottom: 3px solid #d4a017;
                    padding: 24px 24px 18px; text-align: center; }}
     .header-title {{ display: inline-flex; align-items: center; gap: 14px; justify-content: center; }}
-    .capitol-icon {{ width: 52px; height: 52px; flex-shrink: 0; }}
+    .capitol-icon {{ width: 60px; height: 65px; flex-shrink: 0; }}
     .site-header h1 {{ font-size: 2.2rem; font-weight: 800; color: #1a1a1a; }}
     .site-header p {{ color: #666; font-size: 0.95rem; margin-top: 6px; }}
     .site-nav {{ margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }}
@@ -219,23 +220,7 @@ def generate_restaurants(output_path: Path = _DEFAULT_OUTPUT) -> None:
 
 <header class="site-header">
   <div class="header-title">
-    <svg class="capitol-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="50" cy="38" rx="11" ry="5" fill="#d4a017" opacity="0.18"/>
-      <path d="M39 38 Q39 18 50 14 Q61 18 61 38Z" fill="#d4a017"/>
-      <rect x="42" y="36" width="16" height="7" fill="#d4a017"/>
-      <rect x="47" y="8" width="6" height="7" rx="1" fill="#d4a017"/>
-      <rect x="48.5" y="4" width="3" height="5" rx="1" fill="#d4a017"/>
-      <rect x="22" y="43" width="56" height="30" fill="#d4a017"/>
-      <rect x="30" y="43" width="3" height="20" fill="#b8860b"/>
-      <rect x="37" y="43" width="3" height="20" fill="#b8860b"/>
-      <rect x="60" y="43" width="3" height="20" fill="#b8860b"/>
-      <rect x="67" y="43" width="3" height="20" fill="#b8860b"/>
-      <rect x="27" y="43" width="46" height="4" fill="#c69214"/>
-      <rect x="18" y="73" width="64" height="4" rx="1" fill="#d4a017"/>
-      <rect x="12" y="77" width="76" height="4" rx="1" fill="#c69214"/>
-      <rect x="6"  y="81" width="88" height="4" rx="1" fill="#d4a017"/>
-      <rect x="46" y="56" width="8" height="17" rx="1" fill="#fff" opacity="0.55"/>
-    </svg>
+    {CAPITOL_SVG}
     <h1>Sacramento Live</h1>
   </div>
   <p>What's happening in Sacramento, CA</p>
@@ -244,6 +229,7 @@ def generate_restaurants(output_path: Path = _DEFAULT_OUTPUT) -> None:
     <a href="trivia.html">🎲 Trivia</a>
     <a href="museums.html">🏛️ Museums</a>
     <a href="restaurants.html">🍽️ Restaurants</a>
+    <a href="feedback.html">✉️ Feedback</a>
   </nav>
 </header>
 
