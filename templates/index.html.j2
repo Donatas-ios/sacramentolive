@@ -12,9 +12,10 @@
     /* Header */
     .site-header { background: #fff; border-bottom: 3px solid #d4a017;
                    padding: 24px 24px 18px; text-align: center; }
-    .header-title { display: inline-flex; align-items: center; gap: 14px;
+    .header-title { display: inline-flex; align-items: center; gap: 18px;
                     justify-content: center; }
-    .capitol-icon { width: 60px; height: 65px; flex-shrink: 0; }
+    .capitol-icon { width: 58px; height: 67px; flex-shrink: 0; }
+    .tree-icon    { width: 72px; height: 63px; flex-shrink: 0; }
     .site-header h1 { font-size: 2.2rem; font-weight: 800; color: #1a1a1a; }
     .site-header p { color: #666; font-size: 0.95rem; margin-top: 6px; }
 
@@ -105,6 +106,7 @@
   <div class="header-title">
     {{ capitol_svg }}
     <h1>Sacramento Live</h1>
+    {{ tree_svg }}
   </div>
   <p>What's happening in Sacramento, CA — next 14 days</p>
   <nav class="site-nav">

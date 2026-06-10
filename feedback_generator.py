@@ -15,7 +15,7 @@ If FORMSPREE_ID is not set the form still renders but shows a warning.
 from __future__ import annotations
 import os
 from pathlib import Path
-from capitol_svg import CAPITOL_SVG
+from capitol_svg import CAPITOL_SVG, TREE_SVG
 
 _DEFAULT_OUTPUT = Path(__file__).parent / "docs" / "feedback.html"
 
@@ -57,7 +57,8 @@ def generate_feedback(output_path: Path = _DEFAULT_OUTPUT) -> None:
     .site-header {{ background: #fff; border-bottom: 3px solid #d4a017;
                    padding: 24px 24px 18px; text-align: center; }}
     .header-title {{ display: inline-flex; align-items: center; gap: 14px; justify-content: center; }}
-    .capitol-icon {{ width: 60px; height: 65px; flex-shrink: 0; }}
+    .capitol-icon {{ width: 58px; height: 67px; flex-shrink: 0; }}
+    .tree-icon    {{ width: 72px; height: 63px; flex-shrink: 0; }}
     .site-header h1 {{ font-size: 2.2rem; font-weight: 800; color: #1a1a1a; }}
     .site-header p {{ color: #666; font-size: 0.95rem; margin-top: 6px; }}
     .site-nav {{ margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }}
@@ -145,6 +146,7 @@ def generate_feedback(output_path: Path = _DEFAULT_OUTPUT) -> None:
   <div class="header-title">
     {CAPITOL_SVG}
     <h1>Sacramento Live</h1>
+    {TREE_SVG}
   </div>
   <p>What's happening in Sacramento, CA</p>
   <nav class="site-nav">

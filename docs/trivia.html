@@ -12,7 +12,8 @@
     .site-header { background: #fff; border-bottom: 3px solid #d4a017;
                    padding: 24px 24px 18px; text-align: center; }
     .header-title { display: inline-flex; align-items: center; gap: 14px; justify-content: center; }
-    .capitol-icon { width: 60px; height: 65px; flex-shrink: 0; }
+    .capitol-icon { width: 58px; height: 67px; flex-shrink: 0; }
+    .tree-icon    { width: 72px; height: 63px; flex-shrink: 0; }
     .site-header h1 { font-size: 2.2rem; font-weight: 800; color: #1a1a1a; }
     .site-header p { color: #666; font-size: 0.95rem; margin-top: 6px; }
     .site-nav { margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
@@ -62,79 +63,125 @@
 
 <header class="site-header">
   <div class="header-title">
-    <svg class="capitol-icon" viewBox="0 0 120 130" fill="none"
+    <svg class="capitol-icon" viewBox="0 0 100 115" fill="none"
      xmlns="http://www.w3.org/2000/svg" aria-label="California State Capitol">
 
-  <!-- ── Flagpole ── -->
-  <rect x="59" y="0" width="2" height="10" fill="#1a1a1a"/>
-  <polygon points="61,0 68,3 61,6" fill="#1a1a1a"/>
+  <!-- Finial / spire -->
+  <rect x="48.5" y="0" width="3" height="8" rx="1" fill="#1a1a1a"/>
+  <rect x="45.5" y="8" width="9" height="3.5" rx="0.5" fill="#1a1a1a"/>
 
-  <!-- ── Lantern ── -->
-  <rect x="54.5" y="10" width="11" height="3" rx="0.5" fill="#1a1a1a"/>
-  <rect x="56"   y="13" width="8"  height="5" rx="0.5" fill="#1a1a1a"/>
+  <!-- Dome — large smooth semi-ellipse, base at y=53 -->
+  <path d="M16,53 A34,43 0 0,1 84,53 Z" fill="#1a1a1a"/>
 
-  <!-- ── Dome ── -->
-  <!-- Outer dome shape: tall semi-ellipse -->
-  <path d="M30,52 C30,28 45,16 60,15 C75,16 90,28 90,52 Z" fill="#1a1a1a"/>
-  <!-- Dome ribs (light vertical cuts) -->
-  <rect x="46" y="20" width="1.2" height="20" fill="white" opacity="0.18"/>
-  <rect x="51" y="17" width="1.2" height="22" fill="white" opacity="0.18"/>
-  <rect x="60" y="16" width="1.2" height="23" fill="white" opacity="0.18"/>
-  <rect x="68" y="17" width="1.2" height="22" fill="white" opacity="0.18"/>
-  <rect x="73" y="20" width="1.2" height="20" fill="white" opacity="0.18"/>
-  <!-- Dome oculus ring -->
-  <ellipse cx="60" cy="52" rx="30" ry="3" fill="#1a1a1a"/>
+  <!-- Dome base ring -->
+  <rect x="14" y="51" width="72" height="4" fill="#1a1a1a"/>
 
-  <!-- ── Drum colonnade ── -->
-  <rect x="36" y="49" width="48" height="9" fill="#1a1a1a"/>
-  <!-- Drum columns (12 small bumps on drum) -->
-  <rect x="37"   y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="41.5" y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="46"   y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="50.5" y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="55"   y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="59.5" y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="64"   y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="68.5" y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="73"   y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="77.5" y="46" width="2.2" height="5" fill="#1a1a1a"/>
-  <rect x="82"   y="46" width="2.2" height="5" fill="#1a1a1a"/>
+  <!-- ── Drum colonnade (x 14–86, w=72, h=15) ── -->
+  <rect x="14" y="55" width="72" height="15" fill="#1a1a1a"/>
+  <!-- 11 white gaps → 12 dark columns, spacing=6 (4 col + 2 gap) -->
+  <rect x="18" y="55" width="2" height="15" fill="white"/>
+  <rect x="24" y="55" width="2" height="15" fill="white"/>
+  <rect x="30" y="55" width="2" height="15" fill="white"/>
+  <rect x="36" y="55" width="2" height="15" fill="white"/>
+  <rect x="42" y="55" width="2" height="15" fill="white"/>
+  <rect x="48" y="55" width="2" height="15" fill="white"/>
+  <rect x="54" y="55" width="2" height="15" fill="white"/>
+  <rect x="60" y="55" width="2" height="15" fill="white"/>
+  <rect x="66" y="55" width="2" height="15" fill="white"/>
+  <rect x="72" y="55" width="2" height="15" fill="white"/>
+  <rect x="78" y="55" width="2" height="15" fill="white"/>
 
-  <!-- ── Pediment ── -->
-  <path d="M18,64 L60,56 L102,64 Z" fill="#1a1a1a"/>
-  <!-- Pediment entablature -->
-  <rect x="18" y="63" width="84" height="4" fill="#1a1a1a"/>
+  <!-- Entablature below drum -->
+  <rect x="12" y="70" width="76" height="4" fill="#1a1a1a"/>
 
-  <!-- ── Portico columns (8 columns) ── -->
-  <rect x="22"   y="67" width="3.5" height="22" fill="#1a1a1a"/>
-  <rect x="28.5" y="67" width="3.5" height="22" fill="#1a1a1a"/>
-  <rect x="35"   y="67" width="3.5" height="22" fill="#1a1a1a"/>
-  <rect x="41.5" y="67" width="3.5" height="22" fill="#1a1a1a"/>
-  <rect x="75"   y="67" width="3.5" height="22" fill="#1a1a1a"/>
-  <rect x="81.5" y="67" width="3.5" height="22" fill="#1a1a1a"/>
-  <rect x="88"   y="67" width="3.5" height="22" fill="#1a1a1a"/>
-  <rect x="94.5" y="67" width="3.5" height="22" fill="#1a1a1a"/>
+  <!-- ── Upper portico (x 12–88, w=76, h=12) ── -->
+  <rect x="12" y="74" width="76" height="12" fill="#1a1a1a"/>
+  <!-- 9 white gaps → 10 dark columns, spacing=7.6 (5.6 col + 2 gap) -->
+  <rect x="17.6" y="74" width="2" height="12" fill="white"/>
+  <rect x="25.2" y="74" width="2" height="12" fill="white"/>
+  <rect x="32.8" y="74" width="2" height="12" fill="white"/>
+  <rect x="40.4" y="74" width="2" height="12" fill="white"/>
+  <rect x="48.0" y="74" width="2" height="12" fill="white"/>
+  <rect x="55.6" y="74" width="2" height="12" fill="white"/>
+  <rect x="63.2" y="74" width="2" height="12" fill="white"/>
+  <rect x="70.8" y="74" width="2" height="12" fill="white"/>
+  <rect x="78.4" y="74" width="2" height="12" fill="white"/>
 
-  <!-- ── Main building body ── -->
-  <rect x="14" y="67" width="92" height="28" fill="#1a1a1a"/>
-  <!-- Central door -->
-  <rect x="54" y="80" width="12" height="15" rx="1" fill="white" opacity="0.15"/>
+  <!-- Second entablature -->
+  <rect x="10" y="86" width="80" height="4" fill="#1a1a1a"/>
 
-  <!-- ── Wings ── -->
-  <rect x="2"  y="76" width="14" height="19" fill="#1a1a1a"/>
-  <rect x="104" y="76" width="14" height="19" fill="#1a1a1a"/>
-  <!-- Wing windows -->
-  <rect x="5"   y="80" width="4" height="6" rx="0.5" fill="white" opacity="0.15"/>
-  <rect x="111" y="80" width="4" height="6" rx="0.5" fill="white" opacity="0.15"/>
+  <!-- ── Lower portico (x 10–90, w=80, h=15) ── -->
+  <rect x="10" y="90" width="80" height="15" fill="#1a1a1a"/>
+  <!-- 7 white gaps → 8 dark columns, spacing=10 (7 col + 3 gap) -->
+  <rect x="17" y="90" width="3" height="15" fill="white"/>
+  <rect x="27" y="90" width="3" height="15" fill="white"/>
+  <rect x="37" y="90" width="3" height="15" fill="white"/>
+  <rect x="47" y="90" width="3" height="15" fill="white"/>
+  <rect x="57" y="90" width="3" height="15" fill="white"/>
+  <rect x="67" y="90" width="3" height="15" fill="white"/>
+  <rect x="77" y="90" width="3" height="15" fill="white"/>
 
-  <!-- ── Grand staircase (4 steps) ── -->
-  <rect x="18"  y="95"  width="84" height="4"  rx="0.5" fill="#1a1a1a"/>
-  <rect x="12"  y="99"  width="96" height="4"  rx="0.5" fill="#1a1a1a"/>
-  <rect x="6"   y="103" width="108" height="4" rx="0.5" fill="#1a1a1a"/>
-  <rect x="0"   y="107" width="120" height="4" rx="0.5" fill="#1a1a1a"/>
+  <!-- Grand staircase (4 steps, each widens by 6) -->
+  <rect x="14" y="105" width="72" height="3" fill="#1a1a1a"/>
+  <rect x="8"  y="108" width="84" height="3" fill="#1a1a1a"/>
+  <rect x="2"  y="111" width="96" height="3" fill="#1a1a1a"/>
+  <rect x="0"  y="114" width="100" height="1" fill="#1a1a1a"/>
 
 </svg>
     <h1>Sacramento Live</h1>
+    <svg class="tree-icon" viewBox="0 0 120 105" fill="none"
+     xmlns="http://www.w3.org/2000/svg" aria-label="Sacramento oak tree">
+
+  <!-- Main canopy — wide spreading organic silhouette -->
+  <path d="
+    M 16,70
+    C  5,62  1,48  7,36
+    C  4,22 13,12 24,10
+    C 28, 4 36, 2 42, 8
+    C 44, 2 50, 0 56, 6
+    C 60, 0 66, 2 70, 8
+    C 76, 4 86,10 92,16
+    C 100,18 107,30 105,44
+    C 109,54 109,64 104,70
+    Z"
+    fill="#1a1a1a"/>
+
+  <!-- Secondary canopy layer (lower overlap, adds visual depth) -->
+  <path d="
+    M 16,70
+    C 20,64 14,58 18,52
+    C 22,46 28,48 30,54
+    C 34,50 38,46 44,50
+    C 48,45 54,46 56,52
+    C 60,46 66,46 70,52
+    C 74,47 80,48 82,54
+    C 86,50 92,52 96,58
+    C 100,62 104,68 104,70
+    Z"
+    fill="#1a1a1a"/>
+
+  <!-- Trunk — tapered, slightly irregular -->
+  <path d="
+    M 50,70
+    C 48,78 45,90 43,103
+    L 77,103
+    C 75,90 72,78 70,70
+    C 66,68 54,68 50,70
+    Z"
+    fill="#1a1a1a"/>
+
+  <!-- A few visible branch silhouettes at canopy base -->
+  <path d="M55,70 C50,66 40,64 28,66" stroke="#1a1a1a" stroke-width="3.5"
+        stroke-linecap="round" fill="none"/>
+  <path d="M65,70 C70,66 80,64 92,66" stroke="#1a1a1a" stroke-width="3.5"
+        stroke-linecap="round" fill="none"/>
+  <path d="M60,68 C60,62 58,56 56,50"  stroke="#1a1a1a" stroke-width="3"
+        stroke-linecap="round" fill="none"/>
+
+  <!-- Ground shadow -->
+  <ellipse cx="60" cy="103" rx="38" ry="4" fill="#1a1a1a"/>
+
+</svg>
   </div>
   <p>What's happening in Sacramento, CA</p>
   <nav class="site-nav">
@@ -147,27 +194,15 @@
 
 <main class="page">
   <h2>🎲 Sacramento Trivia</h2>
-  <p class="subtitle">Daily selection of fun facts about California's capital · Updated June 10, 2026</p>
+  <p class="subtitle">Daily selection of fun facts about California's capital · Updated June 9, 2026</p>
 
   <div class="trivia-grid">
 
-    <div class="trivia-card" style="--color:#9C27B0">
-      <div class="emoji">🍷</div>
-      <h3>Wine Country</h3>
-      <div class="fact">The Sacramento region has more American Viticultural Areas than Napa Valley</div>
-      <div class="detail">The Sierra Foothills wine region surrounding Sacramento has over 100 wineries. El Dorado, Amador, and Calaveras counties are renowned for Zinfandel and Syrah.</div>
-    </div>
     <div class="trivia-card" style="--color:#2196F3">
       <div class="emoji">⛏️</div>
       <h3>Gold Rush</h3>
       <div class="fact">The California Gold Rush of 1848 put Sacramento on the map</div>
       <div class="detail">Sacramento became the main supply hub for the 300,000+ miners who flooded California. John Sutter's Fort was the first non-indigenous settlement in the area, established in 1839.</div>
-    </div>
-    <div class="trivia-card" style="--color:#3F51B5">
-      <div class="emoji">🌉</div>
-      <h3>Tower Bridge</h3>
-      <div class="fact">Sacramento's Tower Bridge is one of only four vertical-lift bridges in California</div>
-      <div class="detail">Opened in 1935, the golden Tower Bridge connects Sacramento to West Sacramento. It lifts vertically to allow tall ships to pass through to the Port of Sacramento.</div>
     </div>
     <div class="trivia-card" style="--color:#4CAF50">
       <div class="emoji">🌿</div>
@@ -175,11 +210,35 @@
       <div class="fact">William Land Park has been a community gathering place since 1918</div>
       <div class="detail">The 160-acre William Land Park in south Sacramento includes a golf course, Funderland amusement park, Sacramento Zoo, and William Land Regional Park — all free or low-cost.</div>
     </div>
-    <div class="trivia-card" style="--color:#009688">
-      <div class="emoji">🏥</div>
-      <h3>Healthcare</h3>
-      <div class="fact">UC Davis Medical Center in Sacramento is one of the top trauma centers on the West Coast</div>
-      <div class="detail">The UC Davis Medical Center is the only Level 1 trauma center in the region serving a 33-county area. It's also home to the UC Davis Comprehensive Cancer Center.</div>
+    <div class="trivia-card" style="--color:#FF5722">
+      <div class="emoji">🌮</div>
+      <h3>Food Scene</h3>
+      <div class="fact">Sacramento has more restaurants per capita than San Francisco</div>
+      <div class="detail">The combination of fresh local produce, diverse immigrant communities, and a thriving food culture makes Sacramento one of the best eating cities in California.</div>
+    </div>
+    <div class="trivia-card" style="--color:#FF5722">
+      <div class="emoji">🍅</div>
+      <h3>Tomato Capital</h3>
+      <div class="fact">The Sacramento Valley produces about 90% of the nation's processed tomatoes</div>
+      <div class="detail">California grows more tomatoes than any other state, and the Sacramento Valley leads that production. The region also dominates in almonds, rice, and stone fruits.</div>
+    </div>
+    <div class="trivia-card" style="--color:#795548">
+      <div class="emoji">🚂</div>
+      <h3>Transcontinental Railroad</h3>
+      <div class="fact">Sacramento was the western terminus of the First Transcontinental Railroad</div>
+      <div class="detail">In 1863, Sacramento was chosen as the starting point for the Central Pacific Railroad. The railroad was completed in 1869, connecting the country coast to coast for the first time.</div>
+    </div>
+    <div class="trivia-card" style="--color:#795548">
+      <div class="emoji">🏗️</div>
+      <h3>Old Sacramento</h3>
+      <div class="fact">Old Sacramento is a 28-acre National Historic Landmark</div>
+      <div class="detail">Old Sacramento preserves the look of the 1850s Gold Rush era with wooden sidewalks, brick buildings, and cobblestone streets along the Sacramento River waterfront.</div>
+    </div>
+    <div class="trivia-card" style="--color:#d4a017">
+      <div class="emoji">🏛️</div>
+      <h3>Capital City</h3>
+      <div class="fact">Sacramento has been California's state capital since 1854</div>
+      <div class="detail">Before Sacramento, California's capital moved around — San Jose, Vallejo, and Benicia all served as capital before Sacramento was made permanent.</div>
     </div>
     <div class="trivia-card" style="--color:#9C27B0">
       <div class="emoji">📚</div>
@@ -187,42 +246,30 @@
       <div class="fact">Sacramento State was founded in 1947 and is the only university in the California State system named after a city</div>
       <div class="detail">California State University, Sacramento (Sac State) serves over 30,000 students and is a major economic driver for the region, contributing over $2 billion annually to the local economy.</div>
     </div>
-    <div class="trivia-card" style="--color:#9C27B0">
-      <div class="emoji">🎨</div>
-      <h3>Arts</h3>
-      <div class="fact">The Crocker Art Museum is the oldest public art museum in the American West</div>
-      <div class="detail">Founded in 1885, the Crocker Art Museum houses an impressive collection of Californian, European, and Asian art. It was donated to the city by Judge Edwin Crocker.</div>
-    </div>
-    <div class="trivia-card" style="--color:#2196F3">
-      <div class="emoji">🎸</div>
-      <h3>Music</h3>
-      <div class="fact">Sacramento has produced major music acts including Tesla, Deftones, and Cake</div>
-      <div class="detail">The Sacramento music scene punches above its weight. Deftones formed at Del Campo High School in the 1980s and went on to global fame with alternative metal.</div>
-    </div>
   </div>
 
   <div class="quiz-section">
     <h2>🧠 Test Your Knowledge</h2>
 
     <div class="question" id="q1">
-      <p>1. How many sunny days does Sacramento average per year?</p>
+      <p>1. What year did Sacramento become California's permanent state capital?</p>
       <div class="options">
-        <button class="option" onclick="answer(this,'q1',false)">A. 200</button>
-        <button class="option" onclick="answer(this,'q1',false)">B. 230</button>
-        <button class="option" onclick="answer(this,'q1',true)">C. 265</button>
-        <button class="option" onclick="answer(this,'q1',false)">D. 290</button>
-      </div>
-      <div class="explanation">Sacramento averages 265 sunny days per year — sunnier than Miami and one of the sunniest large cities in the US.</div>
-    </div>
-    <div class="question" id="q2">
-      <p>2. What year did Sacramento become California's permanent state capital?</p>
-      <div class="options">
-        <button class="option" onclick="answer(this,'q2',false)">A. 1850</button>
-        <button class="option" onclick="answer(this,'q2',false)">B. 1852</button>
-        <button class="option" onclick="answer(this,'q2',true)">C. 1854</button>
-        <button class="option" onclick="answer(this,'q2',false)">D. 1860</button>
+        <button class="option" onclick="answer(this,'q1',false)">A. 1850</button>
+        <button class="option" onclick="answer(this,'q1',false)">B. 1852</button>
+        <button class="option" onclick="answer(this,'q1',true)">C. 1854</button>
+        <button class="option" onclick="answer(this,'q1',false)">D. 1860</button>
       </div>
       <div class="explanation">Sacramento became the permanent capital in 1854 after the legislature grew tired of moving between San Jose, Vallejo, and Benicia.</div>
+    </div>
+    <div class="question" id="q2">
+      <p>2. What is tule fog?</p>
+      <div class="options">
+        <button class="option" onclick="answer(this,'q2',false)">A. A type of Sacramento beer</button>
+        <button class="option" onclick="answer(this,'q2',true)">B. A dense ground fog in the Central Valley</button>
+        <button class="option" onclick="answer(this,'q2',false)">C. A local weather festival</button>
+        <button class="option" onclick="answer(this,'q2',false)">D. A Sacramento neighborhood</button>
+      </div>
+      <div class="explanation">Tule fog is a dense ground fog that forms in the Sacramento Valley in winter. It can reduce visibility to near zero and is the leading cause of weather-related accidents in California.</div>
     </div>
     <div class="question" id="q3">
       <p>3. What is the oldest public art museum in the American West?</p>
@@ -235,24 +282,24 @@
       <div class="explanation">The Crocker Art Museum, founded in 1885 and donated to Sacramento by Judge Edwin Crocker, is the oldest public art museum in the western United States.</div>
     </div>
     <div class="question" id="q4">
-      <p>4. Which Sacramento band is known for alternative metal hits like 'Change'?</p>
+      <p>4. What nickname is Sacramento known by because of its trees?</p>
       <div class="options">
-        <button class="option" onclick="answer(this,'q4',false)">A. Tesla</button>
-        <button class="option" onclick="answer(this,'q4',false)">B. Cake</button>
-        <button class="option" onclick="answer(this,'q4',true)">C. Deftones</button>
-        <button class="option" onclick="answer(this,'q4',false)">D. Death Angel</button>
+        <button class="option" onclick="answer(this,'q4',false)">A. The Forest City</button>
+        <button class="option" onclick="answer(this,'q4',true)">B. The City of Trees</button>
+        <button class="option" onclick="answer(this,'q4',false)">C. The Green City</button>
+        <button class="option" onclick="answer(this,'q4',false)">D. The Emerald City</button>
       </div>
-      <div class="explanation">Deftones formed at Del Campo High School in Sacramento in the 1980s and became globally renowned for their unique blend of alternative metal and shoegaze.</div>
+      <div class="explanation">Sacramento's urban forest of over 1 million trees earns it the nickname 'City of Trees' — with more canopy per capita than most cities worldwide.</div>
     </div>
     <div class="question" id="q5">
-      <p>5. When was Old Sacramento designated a National Historic Landmark?</p>
+      <p>5. How many counties does UC Davis Medical Center serve as a trauma center?</p>
       <div class="options">
-        <button class="option" onclick="answer(this,'q5',false)">A. 1938</button>
-        <button class="option" onclick="answer(this,'q5',true)">B. 1965</button>
-        <button class="option" onclick="answer(this,'q5',false)">C. 1979</button>
-        <button class="option" onclick="answer(this,'q5',false)">D. 1991</button>
+        <button class="option" onclick="answer(this,'q5',false)">A. 15</button>
+        <button class="option" onclick="answer(this,'q5',false)">B. 22</button>
+        <button class="option" onclick="answer(this,'q5',true)">C. 33</button>
+        <button class="option" onclick="answer(this,'q5',false)">D. 40</button>
       </div>
-      <div class="explanation">Old Sacramento was designated a National Historic Landmark in 1965, preserving 28 acres of Gold Rush-era buildings along the Sacramento River waterfront.</div>
+      <div class="explanation">UC Davis Medical Center is the only Level 1 trauma center serving a 33-county area in Northern California and Nevada.</div>
     </div>
   </div>
 </main>
