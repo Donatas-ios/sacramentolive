@@ -6,6 +6,7 @@ import logging
 import sys
 from combiner import combine
 from generator import generate
+from trivia_generator import generate_trivia
 from weather import fetch_forecast
 from scrapers import ALL_SCRAPERS
 
@@ -43,6 +44,9 @@ def main() -> None:
 
     generate(combined, weather)
     logger.info("Generated docs/index.html")
+
+    generate_trivia()
+    logger.info("Generated docs/trivia.html")
 
 
 if __name__ == "__main__":
