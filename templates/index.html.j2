@@ -66,30 +66,26 @@
     .cat-nightlife { --cat-color: #3F51B5; }
     .cat-festivals { --cat-color: #F44336; }
 
-    /* On This Day banner */
-    .otd-bar { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
-               color: #fff; padding: 0; border-bottom: 2px solid #d4a017; }
+    /* On This Day strip */
+    .otd-bar { background: #fdf8ee; border-bottom: 1px solid #e8dfc8;
+               padding: 7px 20px; }
     .otd-inner { max-width: 1200px; margin: 0 auto;
-                 display: flex; align-items: stretch; gap: 0; }
-    .otd-label { background: #d4a017; color: #1a1a1a; font-size: 0.68rem;
-                 font-weight: 800; text-transform: uppercase; letter-spacing: .07em;
-                 writing-mode: vertical-rl; text-orientation: mixed;
-                 padding: 10px 7px; display: flex; align-items: center;
-                 justify-content: center; white-space: nowrap; flex-shrink: 0; }
-    .otd-label.type-california { background: #1565C0; color: #fff; }
-    .otd-label.type-birthday   { background: #6a1b9a; color: #fff; }
-    .otd-content { padding: 11px 18px; flex: 1; min-width: 0; }
-    .otd-headline { font-size: 0.88rem; font-weight: 700; color: #fff;
-                    line-height: 1.4; }
-    .otd-headline .otd-year { color: #d4a017; margin-right: 4px; }
-    .otd-detail { font-size: 0.78rem; color: rgba(255,255,255,.65);
-                  margin-top: 3px; line-height: 1.5;
-                  display: none; }
-    .otd-toggle { background: none; border: 1px solid rgba(255,255,255,.3);
-                  color: rgba(255,255,255,.7); font-size: 0.72rem; padding: 2px 8px;
-                  border-radius: 10px; cursor: pointer; margin-left: 8px;
-                  vertical-align: middle; white-space: nowrap; }
-    .otd-toggle:hover { border-color: #d4a017; color: #d4a017; }
+                 display: flex; align-items: baseline; gap: 6px;
+                 flex-wrap: wrap; }
+    .otd-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+                 letter-spacing: .06em; white-space: nowrap; flex-shrink: 0; }
+    .otd-label.type-sacramento { color: #b8860b; }
+    .otd-label.type-california { color: #1565C0; }
+    .otd-label.type-birthday   { color: #6a1b9a; }
+    .otd-label.type-fallback   { color: #b8860b; }
+    .otd-headline { font-size: 0.82rem; color: #444; line-height: 1.4; }
+    .otd-headline .otd-year { font-weight: 700; color: #1a1a1a; margin-right: 2px; }
+    .otd-toggle { background: none; border: none; color: #b8860b; font-size: 0.75rem;
+                  font-weight: 600; padding: 0 4px; cursor: pointer;
+                  text-decoration: underline; vertical-align: baseline; }
+    .otd-toggle:hover { color: #d4a017; }
+    .otd-detail { font-size: 0.78rem; color: #666; margin-top: 2px;
+                  line-height: 1.5; display: none; width: 100%; }
 
     /* Nav */
     .site-nav { margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
@@ -121,28 +117,26 @@
 
 <div class="otd-bar">
   <div class="otd-inner">
-    <div class="otd-label type-{{ today_fact.type }}">
-      {%- if today_fact.type == 'birthday' %}🎂 Born Today
-      {%- elif today_fact.type == 'california' %}🐻 California
-      {%- else %}📅 On This Day
+    <span class="otd-label type-{{ today_fact.type }}">
+      {%- if today_fact.type == 'birthday' %}🎂 Born today ·
+      {%- elif today_fact.type == 'california' %}🐻 California history ·
+      {%- else %}📅 On this day ·
       {%- endif %}
-    </div>
-    <div class="otd-content">
-      <div class="otd-headline">
-        {% if today_fact.year %}<span class="otd-year">{{ today_fact.year }} —</span>{% endif %}
-        {{ today_fact.fact }}
-        <button class="otd-toggle" onclick="toggleOtd(this)">+ more</button>
-      </div>
-      <div class="otd-detail">{{ today_fact.detail }}</div>
-    </div>
+    </span>
+    <span class="otd-headline">
+      {%- if today_fact.year %}<span class="otd-year">{{ today_fact.year }} —</span>{% endif -%}
+      {{ today_fact.fact }}
+    </span>
+    <button class="otd-toggle" onclick="toggleOtd(this)">more</button>
+    <span class="otd-detail">{{ today_fact.detail }}</span>
   </div>
 </div>
 <script>
   function toggleOtd(btn) {
-    var detail = btn.closest('.otd-content').querySelector('.otd-detail');
-    var open = detail.style.display === 'block';
-    detail.style.display = open ? 'none' : 'block';
-    btn.textContent = open ? '+ more' : '− less';
+    var detail = btn.nextElementSibling;
+    var open = detail.style.display === 'inline';
+    detail.style.display = open ? 'none' : 'inline';
+    btn.textContent = open ? 'more' : 'less';
   }
 </script>
 
