@@ -71,11 +71,13 @@
                color: #fff; padding: 0; border-bottom: 2px solid #d4a017; }
     .otd-inner { max-width: 1200px; margin: 0 auto;
                  display: flex; align-items: stretch; gap: 0; }
-    .otd-label { background: #d4a017; color: #1a1a1a; font-size: 0.7rem;
-                 font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+    .otd-label { background: #d4a017; color: #1a1a1a; font-size: 0.68rem;
+                 font-weight: 800; text-transform: uppercase; letter-spacing: .07em;
                  writing-mode: vertical-rl; text-orientation: mixed;
                  padding: 10px 7px; display: flex; align-items: center;
                  justify-content: center; white-space: nowrap; flex-shrink: 0; }
+    .otd-label.type-california { background: #1565C0; color: #fff; }
+    .otd-label.type-birthday   { background: #6a1b9a; color: #fff; }
     .otd-content { padding: 11px 18px; flex: 1; min-width: 0; }
     .otd-headline { font-size: 0.88rem; font-weight: 700; color: #fff;
                     line-height: 1.4; }
@@ -143,7 +145,12 @@
 
 <div class="otd-bar">
   <div class="otd-inner">
-    <div class="otd-label">📅 On This Day</div>
+    <div class="otd-label type-{{ today_fact.type }}">
+      {%- if today_fact.type == 'birthday' %}🎂 Born Today
+      {%- elif today_fact.type == 'california' %}🐻 California
+      {%- else %}📅 On This Day
+      {%- endif %}
+    </div>
     <div class="otd-content">
       <div class="otd-headline">
         {% if today_fact.year %}<span class="otd-year">{{ today_fact.year }} —</span>{% endif %}

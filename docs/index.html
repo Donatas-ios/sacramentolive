@@ -71,11 +71,13 @@
                color: #fff; padding: 0; border-bottom: 2px solid #d4a017; }
     .otd-inner { max-width: 1200px; margin: 0 auto;
                  display: flex; align-items: stretch; gap: 0; }
-    .otd-label { background: #d4a017; color: #1a1a1a; font-size: 0.7rem;
-                 font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+    .otd-label { background: #d4a017; color: #1a1a1a; font-size: 0.68rem;
+                 font-weight: 800; text-transform: uppercase; letter-spacing: .07em;
                  writing-mode: vertical-rl; text-orientation: mixed;
                  padding: 10px 7px; display: flex; align-items: center;
                  justify-content: center; white-space: nowrap; flex-shrink: 0; }
+    .otd-label.type-california { background: #1565C0; color: #fff; }
+    .otd-label.type-birthday   { background: #6a1b9a; color: #fff; }
     .otd-content { padding: 11px 18px; flex: 1; min-width: 0; }
     .otd-headline { font-size: 0.88rem; font-weight: 700; color: #fff;
                     line-height: 1.4; }
@@ -143,14 +145,15 @@
 
 <div class="otd-bar">
   <div class="otd-inner">
-    <div class="otd-label">📅 On This Day</div>
+    <div class="otd-label type-fallback">📅 On This Day
+    </div>
     <div class="otd-content">
       <div class="otd-headline">
         
         During World War II, Sacramento's McClellan Air Field became one of the most important military depots in the Pacific
         <button class="otd-toggle" onclick="toggleOtd(this)">+ more</button>
       </div>
-      <div class="otd-detail">McClellan Air Force Base near Sacramento served as a major overhaul and supply depot during WWII and the Cold War, employing tens of thousands and transforming Sacramento into a military city.</div>
+      <div class="otd-detail">McClellan Air Force Base served as a major overhaul and supply depot during WWII and the Cold War, employing tens of thousands and transforming Sacramento into a military city.</div>
     </div>
   </div>
 </div>
@@ -197,6 +200,25 @@
 
   
   <div class="event-grid">
+    
+    <div class="event-card cat-family ">
+      <div class="cat-label">Family</div>
+      <div class="event-title">
+        <a href="https://www.eventbrite.co.uk/e/functional-constipation-in-children-assessment-and-treatment-tickets-1989003526089" target="_blank" rel="noopener noreferrer">Functional Constipation in Children: Assessment and Treatment</a>
+      </div>
+      <div class="event-meta">
+        
+        
+        Sacramento
+      </div>
+      <div class="badge-row">
+        
+        <button class="btn-share"
+                data-url="https://www.eventbrite.co.uk/e/functional-constipation-in-children-assessment-and-treatment-tickets-1989003526089"
+                data-title="Functional Constipation in Children: Assessment and Treatment"
+                onclick="shareEvent(this)" type="button">Share</button>
+      </div>
+    </div>
     
     <div class="event-card cat-community ">
       <div class="cat-label">Community</div>
@@ -339,6 +361,25 @@
     <div class="event-card cat-community ">
       <div class="cat-label">Community</div>
       <div class="event-title">
+        <a href="https://www.eventbrite.co.uk/e/neurodivergence-mental-health-tickets-1414932203309" target="_blank" rel="noopener noreferrer">Neurodivergence &amp; Mental Health</a>
+      </div>
+      <div class="event-meta">
+        
+        
+        Sacramento
+      </div>
+      <div class="badge-row">
+        
+        <button class="btn-share"
+                data-url="https://www.eventbrite.co.uk/e/neurodivergence-mental-health-tickets-1414932203309"
+                data-title="Neurodivergence &amp; Mental Health"
+                onclick="shareEvent(this)" type="button">Share</button>
+      </div>
+    </div>
+    
+    <div class="event-card cat-community ">
+      <div class="cat-label">Community</div>
+      <div class="event-title">
         <a href="https://www.eventbrite.com/e/toms-watch-bar-takeover-tickets-1990833722255" target="_blank" rel="noopener noreferrer">Tom&#39;s Watch Bar Takeover</a>
       </div>
       <div class="event-meta">
@@ -355,7 +396,7 @@
       </div>
     </div>
     
-    <div class="event-card cat-festivals is-free">
+    <div class="event-card cat-festivals ">
       <div class="cat-label">Festivals &amp; Fairs</div>
       <div class="event-title">
         <a href="https://www.eventbrite.com/e/sacramento-in-person-ip-community-employment-day-career-fair-06112026-tickets-1415337866659" target="_blank" rel="noopener noreferrer">SACRAMENTO In Person (IP) Community Employment Day Career Fair  06/11/2026</a>
@@ -366,8 +407,6 @@
         Holiday Inn Sacramento Downtown - Arena by IHG
       </div>
       <div class="badge-row">
-        
-          <span class="badge-free">FREE</span>
         
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/sacramento-in-person-ip-community-employment-day-career-fair-06112026-tickets-1415337866659"
@@ -393,25 +432,6 @@
         <button class="btn-share"
                 data-url="https://www.meetup.com/sacramento-tall-club/events/314209694/"
                 data-title="STC - Concerts in the Park"
-                onclick="shareEvent(this)" type="button">Share</button>
-      </div>
-    </div>
-    
-    <div class="event-card cat-community ">
-      <div class="cat-label">Community</div>
-      <div class="event-title">
-        <a href="https://www.eventbrite.com/e/launch-of-guidance-trauma-informed-support-for-survivors-of-torture-tickets-1988622748172" target="_blank" rel="noopener noreferrer">Launch of Guidance: Trauma Informed Support for Survivors of Torture</a>
-      </div>
-      <div class="event-meta">
-        7:00 AM
-         · 
-        Sacramento
-      </div>
-      <div class="badge-row">
-        
-        <button class="btn-share"
-                data-url="https://www.eventbrite.com/e/launch-of-guidance-trauma-informed-support-for-survivors-of-torture-tickets-1988622748172"
-                data-title="Launch of Guidance: Trauma Informed Support for Survivors of Torture"
                 onclick="shareEvent(this)" type="button">Share</button>
       </div>
     </div>
@@ -467,11 +487,28 @@
       </div>
       <div class="badge-row">
         
-          <span class="badge-price">$17.85</span>
-        
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/sacramento-card-show-weekend-6122026-to-6142026-tickets-1986187236491"
                 data-title="Sacramento Card Show Weekend 6/12/2026 to 6/14/2026"
+                onclick="shareEvent(this)" type="button">Share</button>
+      </div>
+    </div>
+    
+    <div class="event-card cat-community ">
+      <div class="cat-label">Community</div>
+      <div class="event-title">
+        <a href="https://www.eventbrite.com/e/bacteriophages-in-the-arab-world-ii-phage-based-strategies-against-mdr-tickets-1985805175737" target="_blank" rel="noopener noreferrer">Bacteriophages in the Arab World II: Phage-Based Strategies Against MDR</a>
+      </div>
+      <div class="event-meta">
+        4:00 AM
+         · 
+        Sacramento
+      </div>
+      <div class="badge-row">
+        
+        <button class="btn-share"
+                data-url="https://www.eventbrite.com/e/bacteriophages-in-the-arab-world-ii-phage-based-strategies-against-mdr-tickets-1985805175737"
+                data-title="Bacteriophages in the Arab World II: Phage-Based Strategies Against MDR"
                 onclick="shareEvent(this)" type="button">Share</button>
       </div>
     </div>
@@ -664,8 +701,6 @@
       </div>
       <div class="badge-row">
         
-          <span class="badge-price">$18.81</span>
-        
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/sacramento-pride-march-festival-2026-tickets-1988594520743"
                 data-title="Sacramento Pride March &amp; Festival 2026"
@@ -741,6 +776,8 @@
         The Rink Studios
       </div>
       <div class="badge-row">
+        
+          <span class="badge-price">$28.45</span>
         
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/casa-blossom-tickets-1990072951770"
@@ -868,7 +905,7 @@
       </div>
     </div>
     
-    <div class="event-card cat-community is-free">
+    <div class="event-card cat-community ">
       <div class="cat-label">Community</div>
       <div class="event-title">
         <a href="https://www.eventbrite.com/e/rb-summer-white-party-tickets-1985940490467" target="_blank" rel="noopener noreferrer">R&amp;B Summer White Party</a>
@@ -879,8 +916,6 @@
         1107 Firehouse Alley
       </div>
       <div class="badge-row">
-        
-          <span class="badge-free">FREE</span>
         
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/rb-summer-white-party-tickets-1985940490467"
@@ -948,25 +983,6 @@
   
   <div class="event-grid">
     
-    <div class="event-card cat-community ">
-      <div class="cat-label">Community</div>
-      <div class="event-title">
-        <a href="https://www.eventbrite.co.uk/e/7-quick-wins-supporting-the-child-who-shuts-down-tickets-1981854038780" target="_blank" rel="noopener noreferrer">7 Quick Wins: Supporting the Child Who Shuts Down</a>
-      </div>
-      <div class="event-meta">
-        
-        
-        Sacramento
-      </div>
-      <div class="badge-row">
-        
-        <button class="btn-share"
-                data-url="https://www.eventbrite.co.uk/e/7-quick-wins-supporting-the-child-who-shuts-down-tickets-1981854038780"
-                data-title="7 Quick Wins: Supporting the Child Who Shuts Down"
-                onclick="shareEvent(this)" type="button">Share</button>
-      </div>
-    </div>
-    
     <div class="event-card cat-community is-free">
       <div class="cat-label">Community</div>
       <div class="event-title">
@@ -984,6 +1000,25 @@
         <button class="btn-share"
                 data-url="https://www.meetup.com/meetup-group-wvtnwczd/events/313677282/"
                 data-title="BBRN Networking Meeting Every two weeks on Tue · Jun 16 · 11:30 AM PDT by Best Business Referral Network icon 4.7 4 attendees"
+                onclick="shareEvent(this)" type="button">Share</button>
+      </div>
+    </div>
+    
+    <div class="event-card cat-community ">
+      <div class="cat-label">Community</div>
+      <div class="event-title">
+        <a href="https://www.eventbrite.com/e/sustainability-career-leadership-forum-2026-tickets-1987806421517" target="_blank" rel="noopener noreferrer">Sustainability Career Leadership Forum 2026</a>
+      </div>
+      <div class="event-meta">
+        
+        
+        Sacramento
+      </div>
+      <div class="badge-row">
+        
+        <button class="btn-share"
+                data-url="https://www.eventbrite.com/e/sustainability-career-leadership-forum-2026-tickets-1987806421517"
+                data-title="Sustainability Career Leadership Forum 2026"
                 onclick="shareEvent(this)" type="button">Share</button>
       </div>
     </div>
@@ -1318,6 +1353,8 @@
       </div>
       <div class="badge-row">
         
+          <span class="badge-price">$28.52</span>
+        
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/dueling-pianos-live-stoneys-front-bar-saturday-june-20th-tickets-1991014601269"
                 data-title="Dueling Pianos LIVE Stoney&#39;s Front Bar Saturday June 20th"
@@ -1403,7 +1440,7 @@
       </div>
     </div>
     
-    <div class="event-card cat-community ">
+    <div class="event-card cat-community is-free">
       <div class="cat-label">Community</div>
       <div class="event-title">
         <a href="https://www.eventbrite.com/e/sac-loves-rb-lovers-friends-tickets-1990608996093" target="_blank" rel="noopener noreferrer">Sac Loves R&amp;B- Lovers &amp; Friends</a>
@@ -1414,6 +1451,8 @@
         Harlow&#39;s, J Street, Sacramento, CA, USA
       </div>
       <div class="badge-row">
+        
+          <span class="badge-free">FREE</span>
         
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/sac-loves-rb-lovers-friends-tickets-1990608996093"
@@ -1576,25 +1615,6 @@
         <button class="btn-share"
                 data-url="https://www.eventbrite.com/e/las-vegas-hiring-event-tickets-767105612537"
                 data-title="Las Vegas Hiring Event"
-                onclick="shareEvent(this)" type="button">Share</button>
-      </div>
-    </div>
-    
-    <div class="event-card cat-community ">
-      <div class="cat-label">Community</div>
-      <div class="event-title">
-        <a href="https://www.eventbrite.ie/e/womens-health-perimenopause-tickets-1985906147747" target="_blank" rel="noopener noreferrer">Women&#39;s Health - Perimenopause</a>
-      </div>
-      <div class="event-meta">
-        
-        
-        Sacramento
-      </div>
-      <div class="badge-row">
-        
-        <button class="btn-share"
-                data-url="https://www.eventbrite.ie/e/womens-health-perimenopause-tickets-1985906147747"
-                data-title="Women&#39;s Health - Perimenopause"
                 onclick="shareEvent(this)" type="button">Share</button>
       </div>
     </div>
