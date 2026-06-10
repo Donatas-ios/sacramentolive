@@ -66,8 +66,31 @@
     .cat-nightlife { --cat-color: #3F51B5; }
     .cat-festivals { --cat-color: #F44336; }
 
+    /* On This Day banner */
+    .otd-bar { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+               color: #fff; padding: 0; border-bottom: 2px solid #d4a017; }
+    .otd-inner { max-width: 1200px; margin: 0 auto;
+                 display: flex; align-items: stretch; gap: 0; }
+    .otd-label { background: #d4a017; color: #1a1a1a; font-size: 0.7rem;
+                 font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+                 writing-mode: vertical-rl; text-orientation: mixed;
+                 padding: 10px 7px; display: flex; align-items: center;
+                 justify-content: center; white-space: nowrap; flex-shrink: 0; }
+    .otd-content { padding: 11px 18px; flex: 1; min-width: 0; }
+    .otd-headline { font-size: 0.88rem; font-weight: 700; color: #fff;
+                    line-height: 1.4; }
+    .otd-headline .otd-year { color: #d4a017; margin-right: 4px; }
+    .otd-detail { font-size: 0.78rem; color: rgba(255,255,255,.65);
+                  margin-top: 3px; line-height: 1.5;
+                  display: none; }
+    .otd-toggle { background: none; border: 1px solid rgba(255,255,255,.3);
+                  color: rgba(255,255,255,.7); font-size: 0.72rem; padding: 2px 8px;
+                  border-radius: 10px; cursor: pointer; margin-left: 8px;
+                  vertical-align: middle; white-space: nowrap; }
+    .otd-toggle:hover { border-color: #d4a017; color: #d4a017; }
+
     /* Nav */
-    .site-nav { margin-top: 10px; }
+    .site-nav { margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
     .site-nav a { font-size: 0.85rem; color: #d4a017; font-weight: 600;
                   text-decoration: none; border: 1px solid #d4a017;
                   padding: 4px 12px; border-radius: 20px; }
@@ -117,6 +140,28 @@
     <a href="restaurants.html">🍽️ Restaurants</a>
   </nav>
 </header>
+
+<div class="otd-bar">
+  <div class="otd-inner">
+    <div class="otd-label">📅 On This Day</div>
+    <div class="otd-content">
+      <div class="otd-headline">
+        
+        During World War II, Sacramento's McClellan Air Field became one of the most important military depots in the Pacific
+        <button class="otd-toggle" onclick="toggleOtd(this)">+ more</button>
+      </div>
+      <div class="otd-detail">McClellan Air Force Base near Sacramento served as a major overhaul and supply depot during WWII and the Cold War, employing tens of thousands and transforming Sacramento into a military city.</div>
+    </div>
+  </div>
+</div>
+<script>
+  function toggleOtd(btn) {
+    var detail = btn.closest('.otd-content').querySelector('.otd-detail');
+    var open = detail.style.display === 'block';
+    detail.style.display = open ? 'none' : 'block';
+    btn.textContent = open ? '+ more' : '− less';
+  }
+</script>
 
 
 <section class="day-section">

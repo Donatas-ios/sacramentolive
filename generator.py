@@ -5,6 +5,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from models import Event
 from weather import WeatherDay
+from on_this_day import get_fact_for_date
 
 _TEMPLATE_DIR = Path(__file__).parent / "templates"
 _DEFAULT_OUTPUT = Path(__file__).parent / "docs" / "index.html"
@@ -44,7 +45,9 @@ def generate(
 ) -> None:
     env = Environment(loader=FileSystemLoader(str(_TEMPLATE_DIR)), autoescape=False)
     template = env.get_template("index.html.j2")
+    today = date.today()
     days = _build_days(events, weather)
-    html = template.render(days=days)
+    today_fact = get_fact_for_date(today)
+    html = template.render(days=days, today_fact=today_fact)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(html, encoding="utf-8")
