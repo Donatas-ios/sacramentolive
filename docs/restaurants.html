@@ -1,0 +1,2366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sacramento Restaurants — Sacramento Live</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: #f8f5f0; color: #222; }
+
+    /* ── Header ── */
+    .site-header { background: #fff; border-bottom: 3px solid #d4a017;
+                   padding: 24px 24px 18px; text-align: center; }
+    .header-title { display: inline-flex; align-items: center; gap: 14px; justify-content: center; }
+    .capitol-icon { width: 52px; height: 52px; flex-shrink: 0; }
+    .site-header h1 { font-size: 2.2rem; font-weight: 800; color: #1a1a1a; }
+    .site-header p { color: #666; font-size: 0.95rem; margin-top: 6px; }
+    .site-nav { margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .site-nav a { font-size: 0.85rem; color: #d4a017; font-weight: 600;
+                  text-decoration: none; border: 1px solid #d4a017;
+                  padding: 4px 12px; border-radius: 20px; }
+    .site-nav a:hover { background: #d4a017; color: #fff; }
+
+    /* ── Page ── */
+    .page { max-width: 960px; margin: 36px auto; padding: 0 16px; }
+    .page-hero { margin-bottom: 24px; }
+    .page-hero h2 { font-size: 1.7rem; font-weight: 800; color: #1a1a1a; }
+    .page-hero p { color: #666; font-size: 0.95rem; margin-top: 6px; line-height: 1.5; }
+
+    /* ── Map banner ── */
+    .map-banner { display: flex; align-items: center; gap: 12px;
+                  background: #fff; border: 1px solid #e0dbd3; border-radius: 10px;
+                  padding: 14px 18px; margin-bottom: 24px;
+                  box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .map-banner-text { flex: 1; }
+    .map-banner-text strong { font-size: 1rem; color: #1a1a1a; }
+    .map-banner-text span { display: block; font-size: 0.85rem; color: #666; margin-top: 2px; }
+    .btn-map-all { background: #d4a017; color: #fff; font-weight: 700;
+                   font-size: 0.85rem; padding: 9px 18px; border-radius: 8px;
+                   text-decoration: none; white-space: nowrap; }
+    .btn-map-all:hover { background: #b8860b; }
+
+    /* ── Stats ── */
+    .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .stat { background: #fff; border-radius: 8px; padding: 12px 20px;
+             border-left: 4px solid #d4a017;
+             box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .stat-num { font-size: 1.6rem; font-weight: 800; color: #d4a017; }
+    .stat-lbl { font-size: 0.78rem; color: #777; margin-top: 2px; }
+
+    /* ── Jump nav ── */
+    .jump-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .nav-pill { font-size: 0.8rem; font-weight: 600; padding: 6px 14px;
+               border-radius: 20px; text-decoration: none;
+               background: #fff; color: var(--color);
+               border: 1.5px solid var(--color);
+               transition: background .15s; white-space: nowrap; }
+    .nav-pill:hover { background: var(--color); color: #fff; }
+
+    /* ── Cuisine section ── */
+    .cuisine-section { margin-bottom: 40px; }
+    .cuisine-header { display: flex; align-items: center; gap: 12px;
+                      background: #fff; border-radius: 10px 10px 0 0;
+                      border-left: 6px solid var(--color);
+                      padding: 16px 20px;
+                      box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .cuisine-emoji { font-size: 2rem; line-height: 1; }
+    .cuisine-name { font-size: 1.25rem; font-weight: 800; color: #1a1a1a; }
+    .cuisine-meta { font-size: 0.8rem; color: #888; margin-top: 3px; }
+    .cuisine-blurb { font-size: 0.88rem; color: #555; line-height: 1.6;
+                     background: #faf7f2; padding: 12px 20px;
+                     border-left: 6px solid var(--color, #d4a017);
+                     margin-bottom: 2px; }
+
+    /* ── Restaurant list ── */
+    .rest-list { background: #fff; border-radius: 0 0 10px 10px;
+                 box-shadow: 0 2px 8px rgba(0,0,0,.07); overflow: hidden; }
+    .rest-row { display: flex; align-items: center; justify-content: space-between;
+               padding: 13px 18px; border-bottom: 1px solid #f2ece4;
+               gap: 12px; }
+    .rest-row:last-child { border-bottom: none; }
+    .rest-row:hover { background: #fdfaf6; }
+    .rest-main { flex: 1; min-width: 0; }
+    .rest-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .rest-name-link { font-size: 1rem; font-weight: 700; color: #1a1a1a;
+                      text-decoration: none; }
+    .rest-name-link:hover { color: #d4a017; text-decoration: underline; }
+    .rest-rating-badge { display: inline-flex; align-items: center; gap: 4px; }
+    .rating-num { font-size: 0.82rem; font-weight: 700; color: #d4a017; }
+    .stars-wrap { font-size: 0.8rem; line-height: 1; white-space: nowrap; }
+    .star.full  { color: #d4a017; }
+    .star.half  { color: #d4a017; opacity: 0.55; }
+    .star.empty { color: #ddd; }
+    .rest-price { font-size: 0.78rem; font-weight: 700; color: #888;
+                  background: #f4f0ea; padding: 2px 7px; border-radius: 10px; }
+    .rest-bottom { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+                   margin-top: 4px; }
+    .rest-address { font-size: 0.78rem; color: #888; text-decoration: none; }
+    .rest-address:hover { color: #d4a017; text-decoration: underline; }
+    .rest-note { font-size: 0.78rem; color: #777; font-style: italic; }
+    .rest-note::before { content: '· '; }
+    .rest-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .btn-web { font-size: 0.75rem; font-weight: 600; padding: 5px 11px;
+               border-radius: 6px; text-decoration: none;
+               background: #d4a017; color: #fff; }
+    .btn-web:hover { background: #b8860b; }
+    .btn-map { font-size: 0.75rem; font-weight: 600; padding: 5px 11px;
+               border-radius: 6px; text-decoration: none;
+               background: #f4f0ea; color: #555; }
+    .btn-map:hover { background: #e8e2d8; }
+
+    /* ── Footer ── */
+    footer { text-align: center; padding: 32px 16px; color: #999;
+             font-size: 0.8rem; border-top: 1px solid #e0dbd3; margin-top: 20px; }
+    footer a { color: #d4a017; text-decoration: none; }
+    @media (max-width: 600px) {
+      .rest-row { flex-direction: column; align-items: flex-start; }
+      .rest-actions { width: 100%; justify-content: flex-start; }
+      .cuisine-blurb { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-title">
+    <svg class="capitol-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="50" cy="38" rx="11" ry="5" fill="#d4a017" opacity="0.18"/>
+      <path d="M39 38 Q39 18 50 14 Q61 18 61 38Z" fill="#d4a017"/>
+      <rect x="42" y="36" width="16" height="7" fill="#d4a017"/>
+      <rect x="47" y="8" width="6" height="7" rx="1" fill="#d4a017"/>
+      <rect x="48.5" y="4" width="3" height="5" rx="1" fill="#d4a017"/>
+      <rect x="22" y="43" width="56" height="30" fill="#d4a017"/>
+      <rect x="30" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="37" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="60" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="67" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="27" y="43" width="46" height="4" fill="#c69214"/>
+      <rect x="18" y="73" width="64" height="4" rx="1" fill="#d4a017"/>
+      <rect x="12" y="77" width="76" height="4" rx="1" fill="#c69214"/>
+      <rect x="6"  y="81" width="88" height="4" rx="1" fill="#d4a017"/>
+      <rect x="46" y="56" width="8" height="17" rx="1" fill="#fff" opacity="0.55"/>
+    </svg>
+    <h1>Sacramento Live</h1>
+  </div>
+  <p>What's happening in Sacramento, CA</p>
+  <nav class="site-nav">
+    <a href="index.html">← Events</a>
+    <a href="trivia.html">🎲 Trivia</a>
+    <a href="museums.html">🏛️ Museums</a>
+    <a href="restaurants.html">🍽️ Restaurants</a>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="page-hero">
+    <h2>🍽️ Sacramento Restaurants</h2>
+    <p>Sacramento is America's Farm-to-Fork Capital — 92+ top-rated restaurants across 11 cuisines, sorted by Google Maps rating. Tap any name or address to open in Google Maps.</p>
+  </div>
+
+  <div class="map-banner">
+    <div style="font-size:2rem">🗺️</div>
+    <div class="map-banner-text">
+      <strong>View All Restaurants on a Map</strong>
+      <span>Explore Sacramento's dining scene in Google Maps</span>
+    </div>
+    <a href="https://www.google.com/maps/search/best+restaurants+in+Sacramento+CA" target="_blank" rel="noopener" class="btn-map-all">Open Map →</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">92+</div>
+      <div class="stat-lbl">Restaurants listed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">11</div>
+      <div class="stat-lbl">Cuisine types</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.3</div>
+      <div class="stat-lbl">Average rating</div>
+    </div>
+  </div>
+
+  <div class="jump-nav">
+    <a href="#california" class="nav-pill" style="--color:#4CAF50">🌾 California / Farm-to-Fork</a><a href="#mexican" class="nav-pill" style="--color:#FF5722">🌮 Mexican & Latin</a><a href="#japanese" class="nav-pill" style="--color:#F44336">🍣 Japanese & Ramen</a><a href="#vietnamese" class="nav-pill" style="--color:#FF9800">🍜 Vietnamese</a><a href="#chinese" class="nav-pill" style="--color:#F44336">🥢 Chinese</a><a href="#italian" class="nav-pill" style="--color:#4CAF50">🍝 Italian</a><a href="#indian" class="nav-pill" style="--color:#FF9800">🍛 Indian</a><a href="#thai" class="nav-pill" style="--color:#9C27B0">🥭 Thai</a><a href="#bbq" class="nav-pill" style="--color:#795548">🔥 BBQ & Southern</a><a href="#burgers" class="nav-pill" style="--color:#2196F3">🍔 Burgers & American</a><a href="#seafood" class="nav-pill" style="--color:#0097A7">🦞 Seafood</a>
+  </div>
+
+
+<section class="cuisine-section" id="california">
+  <div class="cuisine-header" style="--color:#4CAF50">
+    <span class="cuisine-emoji">🌾</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">California / Farm-to-Fork</h2>
+      <p class="cuisine-meta">10 restaurants · avg rating 4.5 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento is America's Farm-to-Fork Capital. These restaurants showcase the region's extraordinary local produce, meats, and artisan products.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=The+Kitchen+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">The Kitchen Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.7</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Fine Dining">$$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=The+Kitchen+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2225 Hurley Way, Sacramento</a>
+          <span class="rest-note">James Beard Award-winning; prix-fixe only</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.thekitchenrestaurant.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=The+Kitchen+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Waterboy+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Waterboy Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.6</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Waterboy+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2000 Capitol Ave, Sacramento</a>
+          <span class="rest-note">French-California; outstanding wine list</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.waterboyrestaurant.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Waterboy+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Selland%27s+Market+Cafe+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Selland's Market-Cafe</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.6</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Selland%27s+Market+Cafe+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 5340 Elvas Ave, Sacramento</a>
+          <span class="rest-note">Market cafe; great for lunch</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://sellands.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Selland%27s+Market+Cafe+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Allspice+Restaurant+Carmichael" target="_blank" rel="noopener" class="rest-name-link">Allspice Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.6</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Allspice+Restaurant+Carmichael" class="rest-address" target="_blank" rel="noopener">📍 7111 Fair Oaks Blvd, Carmichael</a>
+          <span class="rest-note">Intimate farm-to-fork</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://allspicerestaurant.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Allspice+Restaurant+Carmichael" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Ella+Dining+Room+Bar+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Ella Dining Room & Bar</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Ella+Dining+Room+Bar+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1131 K St, Sacramento</a>
+          <span class="rest-note">Modern American in downtown</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.elladiningroom.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Ella+Dining+Room+Bar+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Mulvaney%27s+Building+%26+Loan+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Mulvaney's Building & Loan</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Mulvaney%27s+Building+%26+Loan+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1215 19th St, Sacramento</a>
+          <span class="rest-note">Farm-to-fork pioneer</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.mulvaneysbl.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Mulvaney%27s+Building+%26+Loan+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Tower+Cafe+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Tower Cafe</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Tower+Cafe+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1518 Broadway, Sacramento</a>
+          <span class="rest-note">Eclectic global menu; iconic landmark</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.towercafe.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Tower+Cafe+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Bacon+%26+Butter+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Bacon & Butter</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Bacon+%26+Butter+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 5913 Broadway, Sacramento</a>
+          <span class="rest-note">Best brunch in Sacramento</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.baconandbuttersac.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Bacon+%26+Butter+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Grange+Restaurant+Bar+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Grange Restaurant & Bar</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Grange+Restaurant+Bar+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 926 J St, Sacramento</a>
+          <span class="rest-note">Inside Citizen Hotel; seasonal menu</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.grangesacramento.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Grange+Restaurant+Bar+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Paragary%27s+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Paragary's</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Paragary%27s+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1401 28th St, Sacramento</a>
+          <span class="rest-note">Sacramento institution since 1983</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://paragarys.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Paragary%27s+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="mexican">
+  <div class="cuisine-header" style="--color:#FF5722">
+    <span class="cuisine-emoji">🌮</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Mexican & Latin</h2>
+      <p class="cuisine-meta">9 restaurants · avg rating 4.4 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento's large Latino community has cultivated an outstanding Mexican food scene, from street-style taquerias to elevated regional Mexican cuisine.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Taqueria+El+Buen+Sabor+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Taqueria El Buen Sabor</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.6</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Taqueria+El+Buen+Sabor+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 4306 Mack Rd, Sacramento</a>
+          <span class="rest-note">Authentic & cash-only; best al pastor in the city</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Taqueria+El+Buen+Sabor+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=La+Cosecha+Sacramento" target="_blank" rel="noopener" class="rest-name-link">La Cosecha Bar + Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=La+Cosecha+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1809 Capitol Ave, Sacramento</a>
+          <span class="rest-note">Modern Latin; stunning cocktails</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://lacosechasacramento.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=La+Cosecha+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Lalo%27s+Mexican+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Lalo's Mexican Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Lalo%27s+Mexican+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2812 16th St, Sacramento</a>
+          <span class="rest-note">Neighborhood favorite since the '90s</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Lalo%27s+Mexican+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=La+Veracruzana+Sacramento" target="_blank" rel="noopener" class="rest-name-link">La Veracruzana</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=La+Veracruzana+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1408 4th St, Sacramento</a>
+          <span class="rest-note">Old Sacramento; Veracruz-style seafood</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=La+Veracruzana+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Tres+Hermanas+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Tres Hermanas Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Tres+Hermanas+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1128 R St, Sacramento</a>
+          <span class="rest-note">Family-owned; homemade tortillas</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.treshermanassac.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Tres+Hermanas+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Chando%27s+Tacos+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Chando's Tacos</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Chando%27s+Tacos+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 Multiple Sacramento locations</a>
+          <span class="rest-note">Sacramento taco institution</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://chandostacos.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Chando%27s+Tacos+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Taco+Loco+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Taco Loco</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Taco+Loco+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2327 Arden Way, Sacramento</a>
+          <span class="rest-note">Late-night tacos; family favorite</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Taco+Loco+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Azul+Mexican+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Azul Mexican Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Azul+Mexican+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2326 Fair Oaks Blvd, Sacramento</a>
+          <span class="rest-note">Vibrant flavors and generous portions</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Azul+Mexican+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Centro+Cocina+Mexicana+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Centro Cocina Mexicana</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Centro+Cocina+Mexicana+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2730 J St, Sacramento</a>
+          <span class="rest-note">Midtown staple with great margaritas</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://centrosacramento.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Centro+Cocina+Mexicana+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="japanese">
+  <div class="cuisine-header" style="--color:#F44336">
+    <span class="cuisine-emoji">🍣</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Japanese & Ramen</h2>
+      <p class="cuisine-meta">8 restaurants · avg rating 4.5 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento's Japanese food scene ranges from acclaimed omakase sushi to deeply rich ramen broths and Japanese-American fusion.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Ryujin+Ramen+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Ryujin Ramen</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.6</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Ryujin+Ramen+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2226 10th St, Sacramento</a>
+          <span class="rest-note">Rich tonkotsu; top-rated ramen spot</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.ryujinramen.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Ryujin+Ramen+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Kru+Contemporary+Japanese+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Kru Contemporary Japanese</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Kru+Contemporary+Japanese+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 3135 Folsom Blvd, Sacramento</a>
+          <span class="rest-note">Best omakase in Sacramento</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.krurestaurant.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Kru+Contemporary+Japanese+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Shoki+Ramen+House+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Shoki Ramen House</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Shoki+Ramen+House+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2675 Del Paso Blvd, Sacramento</a>
+          <span class="rest-note">Legendary broth; long waits worth it</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.shokiramenhouse.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Shoki+Ramen+House+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Goldfish+Japanese+Food+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Goldfish Japanese Food</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Goldfish+Japanese+Food+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2015 J St, Sacramento</a>
+          <span class="rest-note">Casual hand rolls and izakaya</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Goldfish+Japanese+Food+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Sunh+Fish+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Sunh Fish</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Sunh+Fish+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1800 Tribute Rd, Sacramento</a>
+          <span class="rest-note">Korean-Japanese fusion; popular lunch</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Sunh+Fish+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Mikuni+Japanese+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Mikuni Japanese Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Mikuni+Japanese+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 Multiple Sacramento locations</a>
+          <span class="rest-note">Sacramento sushi institution since 1987</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.mikunisushi.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Mikuni+Japanese+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Tora+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Tora Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Tora+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2730 J St, Sacramento</a>
+          <span class="rest-note">Japanese comfort food; excellent gyoza</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Tora+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Aioli+Bodega+Espa%C3%B1ola+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Aioli Bodega Española</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Aioli+Bodega+Espa%C3%B1ola+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1800 L St, Sacramento</a>
+          <span class="rest-note">Spanish tapas; sake bar</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://aiolirestaurant.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Aioli+Bodega+Espa%C3%B1ola+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="vietnamese">
+  <div class="cuisine-header" style="--color:#FF9800">
+    <span class="cuisine-emoji">🍜</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Vietnamese</h2>
+      <p class="cuisine-meta">9 restaurants · avg rating 4.4 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento has one of the largest Vietnamese communities outside of Vietnam, centered around Little Saigon on Stockton Blvd — with some of the best pho in California.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Pho+Bac+Hoa+Viet+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Pho Bac Hoa Viet</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.6</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Pho+Bac+Hoa+Viet+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 6040 Stockton Blvd, Sacramento</a>
+          <span class="rest-note">Legendary pho; Little Saigon landmark</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Pho+Bac+Hoa+Viet+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Mom%27s+Original+Vietnamese+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Mom's Original Vietnamese</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.6</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Mom%27s+Original+Vietnamese+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 6825 Stockton Blvd, Sacramento</a>
+          <span class="rest-note">Home-style cooking; banh mi standout</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Mom%27s+Original+Vietnamese+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Pho+777+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Pho 777</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Pho+777+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 Multiple Sacramento locations</a>
+          <span class="rest-note">Reliable pho chain with huge portions</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Pho+777+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Long+Phuong+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Long Phuong Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Long+Phuong+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 7809 Stockton Blvd, Sacramento</a>
+          <span class="rest-note">Traditional Vietnamese; late hours</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Long+Phuong+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Viet+Palace+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Viet Palace Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Viet+Palace+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 6844 Stockton Blvd, Sacramento</a>
+          <span class="rest-note">Large menu; great vermicelli bowls</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Viet+Palace+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Tank+House+BBQ+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Tank House BBQ & Bar</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Tank+House+BBQ+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1925 Del Paso Blvd, Sacramento</a>
+          <span class="rest-note">Vietnamese-influenced BBQ fusion</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://tankhousebbq.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Tank+House+BBQ+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Saigon+Alley+Kitchen+Bar+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Saigon Alley Kitchen & Bar</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Saigon+Alley+Kitchen+Bar+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2001 K St, Sacramento</a>
+          <span class="rest-note">Modern Vietnamese; great cocktails</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://saigonalleykitchen.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Saigon+Alley+Kitchen+Bar+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Pho+Saigon+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Pho Saigon</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Pho+Saigon+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 4240 Mack Rd, Sacramento</a>
+          <span class="rest-note">South Sacramento stalwart</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Pho+Saigon+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Broderick+Midtown+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Broderick Midtown</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Broderick+Midtown+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1800 L St, Sacramento</a>
+          <span class="rest-note">Modern Vietnamese-American burgers</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Broderick+Midtown+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="chinese">
+  <div class="cuisine-header" style="--color:#F44336">
+    <span class="cuisine-emoji">🥢</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Chinese</h2>
+      <p class="cuisine-meta">8 restaurants · avg rating 4.4 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">From Cantonese dim sum to Sichuan hot pot, Sacramento's Chinese restaurant scene reflects the city's deep historic ties to Chinese immigrant communities dating to the Gold Rush.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=China+Village+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">China Village</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=China+Village+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1335 Academy Dr, Sacramento</a>
+          <span class="rest-note">Peking duck done right</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=China+Village+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Chuan+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Chuan Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Chuan+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2425 16th St, Sacramento</a>
+          <span class="rest-note">Sichuan hot pot and spicy dishes</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Chuan+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Empress+Tavern+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Empress Tavern</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Empress+Tavern+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1013 K St, Sacramento</a>
+          <span class="rest-note">Historic 1915 Chinese theater; elevated menu</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://empresstavern.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Empress+Tavern+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=New+Canton+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">New Canton Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=New+Canton+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1507 Broadway, Sacramento</a>
+          <span class="rest-note">Weekend dim sum destination</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=New+Canton+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Frank+Fat%27s+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Frank Fat's</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Frank+Fat%27s+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 806 L St, Sacramento</a>
+          <span class="rest-note">1939 Sacramento political institution</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://frankfats.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Frank+Fat%27s+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Fat%27s+Asia+Bistro+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Fat's Asia Bistro</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Fat%27s+Asia+Bistro+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 806 15th St, Sacramento</a>
+          <span class="rest-note">Sacramento chain; reliable dim sum</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://fatsrestaurants.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Fat%27s+Asia+Bistro+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Shanghai+Garden+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Shanghai Garden</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Shanghai+Garden+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 3345 Bradshaw Rd, Sacramento</a>
+          <span class="rest-note">Authentic Shanghai-style dishes</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Shanghai+Garden+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Sam%27s+Hof+Brau+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Sam's Hof Brau</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Sam%27s+Hof+Brau+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2500 Watt Ave, Sacramento</a>
+          <span class="rest-note">Sacramento classic; cafeteria-style</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Sam%27s+Hof+Brau+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="italian">
+  <div class="cuisine-header" style="--color:#4CAF50">
+    <span class="cuisine-emoji">🍝</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Italian</h2>
+      <p class="cuisine-meta">9 restaurants · avg rating 4.4 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento's Italian community has deep roots, and the city boasts some of Northern California's finest trattorias, wood-fired pizza joints, and classic ristorantes.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Biba+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Biba Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Biba+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2801 Capitol Ave, Sacramento</a>
+          <span class="rest-note">Bologna-born chef Biba Caggiano; Sacramento legend</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.biba-restaurant.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Biba+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Maranello+Restaurant+Fair+Oaks" target="_blank" rel="noopener" class="rest-name-link">Maranello Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Maranello+Restaurant+Fair+Oaks" class="rest-address" target="_blank" rel="noopener">📍 8928 N Lake Dr, Fair Oaks</a>
+          <span class="rest-note">Ferrari-themed; exceptional pasta</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.maranellorestaurant.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Maranello+Restaurant+Fair+Oaks" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Amaro%27s+Table+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Amaro's Table</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Amaro%27s+Table+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 401 I St, Sacramento</a>
+          <span class="rest-note">New Italian-American; Old Sacramento waterfront</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://amarostable.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Amaro%27s+Table+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Paesanos+Ristorante+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Paesanos Ristorante</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Paesanos+Ristorante+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1806 Capitol Ave, Sacramento</a>
+          <span class="rest-note">Midtown neighborhood Italian</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://paesanossac.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Paesanos+Ristorante+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Pizza+Rock+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Pizza Rock</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Pizza+Rock+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1020 K St, Sacramento</a>
+          <span class="rest-note">Tony Gemignani's world-champion pizza</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://pizzarocksacramento.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Pizza+Rock+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=La+Trattoria+Bohemia+Sacramento" target="_blank" rel="noopener" class="rest-name-link">La Trattoria Bohemia</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=La+Trattoria+Bohemia+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 3649 J St, Sacramento</a>
+          <span class="rest-note">Czech-Italian fusion; unique Sacramento gem</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=La+Trattoria+Bohemia+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Piatti+Ristorante+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Piatti Ristorante</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Piatti+Ristorante+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 571 Pavilions Ln, Sacramento</a>
+          <span class="rest-note">Regional Italian; popular patio</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.piatti.com/sacramento/" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Piatti+Ristorante+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Biba%27s+Cafe+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Biba's Café</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Biba%27s+Cafe+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1820 L St, Sacramento</a>
+          <span class="rest-note">Casual sibling to Biba Restaurant</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Biba%27s+Cafe+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Il+Fornaio+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Il Fornaio</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Il+Fornaio+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 400 Capitol Mall, Sacramento</a>
+          <span class="rest-note">Upscale Italian in Capitol area</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.ilfornaio.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Il+Fornaio+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="indian">
+  <div class="cuisine-header" style="--color:#FF9800">
+    <span class="cuisine-emoji">🍛</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Indian</h2>
+      <p class="cuisine-meta">8 restaurants · avg rating 4.3 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento's Indian restaurant scene spans Northern and Southern Indian cuisine, from rich Punjabi curries to delicate dosas, serving one of Northern California's largest South Asian communities.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Taste+of+India+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Taste of India</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Taste+of+India+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1900 16th St, Sacramento</a>
+          <span class="rest-note">Sacramento's most beloved Indian restaurant</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.tasteofindiasac.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Taste+of+India+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Sher-E-Punjab+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Sher-E-Punjab</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Sher-E-Punjab+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 721 Broadway, Sacramento</a>
+          <span class="rest-note">Authentic Punjabi; tandoor specialties</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Sher-E-Punjab+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Kathmandu+Kitchen+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Kathmandu Kitchen</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Kathmandu+Kitchen+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1300 Del Paso Blvd, Sacramento</a>
+          <span class="rest-note">Nepali-Indian; momos and curry</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Kathmandu+Kitchen+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Mayura+Indian+Restaurant+Carmichael" target="_blank" rel="noopener" class="rest-name-link">Mayura Indian Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Mayura+Indian+Restaurant+Carmichael" class="rest-address" target="_blank" rel="noopener">📍 4040 Manzanita Ave, Carmichael</a>
+          <span class="rest-note">South Indian specialty; excellent dosas</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Mayura+Indian+Restaurant+Carmichael" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=India+Gate+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">India Gate</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=India+Gate+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1262 Howe Ave, Sacramento</a>
+          <span class="rest-note">Long-standing favorite; lunch buffet</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=India+Gate+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Curry+Station+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Curry Station</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Curry+Station+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2929 Florin Rd, Sacramento</a>
+          <span class="rest-note">South Sacramento staple; great biryani</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Curry+Station+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Bombay+Bar+%26+Grill+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Bombay Bar & Grill</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Bombay+Bar+%26+Grill+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2620 Fair Oaks Blvd, Sacramento</a>
+          <span class="rest-note">Lively bar; live Bollywood music weekends</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://bombaybargrill.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Bombay+Bar+%26+Grill+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Punjab+Indian+Cuisine+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Punjab Indian Cuisine</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Punjab+Indian+Cuisine+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1811 Broadway, Sacramento</a>
+          <span class="rest-note">Budget-friendly; hearty portions</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Punjab+Indian+Cuisine+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="thai">
+  <div class="cuisine-header" style="--color:#9C27B0">
+    <span class="cuisine-emoji">🥭</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Thai</h2>
+      <p class="cuisine-meta">7 restaurants · avg rating 4.3 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento's Thai restaurant scene is vibrant and authentic, with many family-run spots serving regional dishes that go well beyond the typical pad thai.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Lemongrass+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Lemongrass Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Lemongrass+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 601 Munroe St, Sacramento</a>
+          <span class="rest-note">Thai-Southeast Asian fusion; romantic setting</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://lemongrasskitchen.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Lemongrass+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Racha+Cafe+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Racha Cafe</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Racha+Cafe+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2704 J St, Sacramento</a>
+          <span class="rest-note">Midtown staple; late night-friendly</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://rachacafe.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Racha+Cafe+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Chada+Thai+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Chada Thai</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Chada+Thai+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 3011 El Camino Ave, Sacramento</a>
+          <span class="rest-note">North Sacramento; authentic recipes</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Chada+Thai+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Siam+Kitchen+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Siam Kitchen</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Siam+Kitchen+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1830 L St, Sacramento</a>
+          <span class="rest-note">Quick, cheap, and delicious; lunch favorite</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Siam+Kitchen+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Thai+House+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Thai House</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Thai+House+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 820 K St, Sacramento</a>
+          <span class="rest-note">Midtown Thai; great lunch specials</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Thai+House+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Thai+Basil+Kitchen+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Thai Basil Kitchen</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Thai+Basil+Kitchen+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 4626 Freeport Blvd, Sacramento</a>
+          <span class="rest-note">South Sac; quick and affordable</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Thai+Basil+Kitchen+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Zen+Sushi+Thai+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Zen Sushi & Thai</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Zen+Sushi+Thai+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1477 W El Camino Ave, Sacramento</a>
+          <span class="rest-note">Thai-Japanese combo; good value</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Zen+Sushi+Thai+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="bbq">
+  <div class="cuisine-header" style="--color:#795548">
+    <span class="cuisine-emoji">🔥</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">BBQ & Southern</h2>
+      <p class="cuisine-meta">7 restaurants · avg rating 4.4 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Sacramento's BBQ scene blends Texas-style smoke with California ingredients, with several spots earning regional and national recognition.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Tank+House+BBQ+Bar+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Tank House BBQ & Bar</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Tank+House+BBQ+Bar+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1925 Del Paso Blvd, Sacramento</a>
+          <span class="rest-note">Best BBQ in Sac; oak-smoked brisket</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://tankhousebbq.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Tank+House+BBQ+Bar+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Buckhorn+Steakhouse+Winters+CA" target="_blank" rel="noopener" class="rest-name-link">Buckhorn Steakhouse</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Buckhorn+Steakhouse+Winters+CA" class="rest-address" target="_blank" rel="noopener">📍 101 Main St, Winters</a>
+          <span class="rest-note">Short drive; worth the trip</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.buckhornsteakhouse.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Buckhorn+Steakhouse+Winters+CA" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Bad+Ass+BBQ+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Bad A$$ BBQ Smoke House</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Bad+Ass+BBQ+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2616 Del Paso Blvd, Sacramento</a>
+          <span class="rest-note">Oak-smoked meats; huge portions</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Bad+Ass+BBQ+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Knotty+Pine+Supper+Club+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Knotty Pine Supper Club</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Knotty+Pine+Supper+Club+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 4815 Auburn Blvd, Sacramento</a>
+          <span class="rest-note">Old-school steakhouse and BBQ</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Knotty+Pine+Supper+Club+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Sqirl+Smoke+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Sqirl Smoke</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Sqirl+Smoke+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 4440 Florin Rd, Sacramento</a>
+          <span class="rest-note">South Sacramento BBQ gem</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Sqirl+Smoke+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Big+Daddy%27s+BBQ+Elk+Grove" target="_blank" rel="noopener" class="rest-name-link">Big Daddy's BBQ</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Big+Daddy%27s+BBQ+Elk+Grove" class="rest-address" target="_blank" rel="noopener">📍 9012 Bruceville Rd, Elk Grove</a>
+          <span class="rest-note">Sac metro area soul food BBQ</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Big+Daddy%27s+BBQ+Elk+Grove" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Poke+Sac+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Poke Sac</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Poke+Sac+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 5700 24th St, Sacramento</a>
+          <span class="rest-note">Hawaiian BBQ fusion</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Poke+Sac+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="burgers">
+  <div class="cuisine-header" style="--color:#2196F3">
+    <span class="cuisine-emoji">🍔</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Burgers & American</h2>
+      <p class="cuisine-meta">9 restaurants · avg rating 4.3 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">From smash burgers to gourmet creations, Sacramento's burger scene has something for every appetite — including several nationally recognized spots.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Squeeze+Inn+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Squeeze Inn</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Budget">$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Squeeze+Inn+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 7918 Fruitridge Rd, Sacramento</a>
+          <span class="rest-note">Famous cheese skirt burger; featured on Food Network</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.squeezeinn.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Squeeze+Inn+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Hook+%26+Ladder+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Hook & Ladder</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Hook+%26+Ladder+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1630 S St, Sacramento</a>
+          <span class="rest-note">Old fire station; excellent brunch burgers</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://hookandladdermanufacturing.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Hook+%26+Ladder+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Hoppy%27s+on+the+Levee+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Hoppy's On The Levee</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Hoppy%27s+on+the+Levee+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2710 N Market St, Sacramento</a>
+          <span class="rest-note">Craft beer + great pub food</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://hoppybrewing.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Hoppy%27s+on+the+Levee+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Burgers+%26+Brew+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Burgers & Brew</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Burgers+%26+Brew+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1409 R St, Sacramento</a>
+          <span class="rest-note">Local craft beer + house-ground burgers</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://burgersandbrew.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Burgers+%26+Brew+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Revolution+Burger+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Revolution Burger</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Revolution+Burger+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 4680 Natomas Blvd, Sacramento</a>
+          <span class="rest-note">Natomas; gourmet patties</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Revolution+Burger+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Federalist+Public+House+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Federalist Public House</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Federalist+Public+House+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1640 R St, Sacramento</a>
+          <span class="rest-note">R Street; upscale pub burger</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://federalistpublichouse.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Federalist+Public+House+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=The+Golden+Bear+Sacramento" target="_blank" rel="noopener" class="rest-name-link">The Golden Bear</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=The+Golden+Bear+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1710 L St, Sacramento</a>
+          <span class="rest-note">Midtown bar; smash burger</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://thegoldenbear.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=The+Golden+Bear+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Kupros+Craft+House+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Kupros Craft House</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Kupros+Craft+House+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1217 21st St, Sacramento</a>
+          <span class="rest-note">Bar burgers + huge craft beer list</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://kuproscrafthouse.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Kupros+Craft+House+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Red+Robin+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Red Robin</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.0</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Red+Robin+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 Multiple Sacramento locations</a>
+          <span class="rest-note">Family chain; unlimited fries</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.redrobin.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Red+Robin+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cuisine-section" id="seafood">
+  <div class="cuisine-header" style="--color:#0097A7">
+    <span class="cuisine-emoji">🦞</span>
+    <div class="cuisine-title-block">
+      <h2 class="cuisine-name">Seafood</h2>
+      <p class="cuisine-meta">8 restaurants · avg rating 4.4 ⭐</p>
+    </div>
+  </div>
+  <p class="cuisine-blurb">Proximity to the Sacramento Delta, San Francisco Bay, and Pacific coastline means Sacramento restaurants have access to some of California's freshest seafood.</p>
+  <div class="rest-list">
+    
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Hook+%26+Ladder+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Hook & Ladder</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Hook+%26+Ladder+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1630 S St, Sacramento</a>
+          <span class="rest-note">Oysters on weekends; farm-to-fork</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://hookandladdermanufacturing.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Hook+%26+Ladder+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Goldfish+Sushi+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Goldfish Sushi & Sake Bar</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Goldfish+Sushi+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 2015 J St, Sacramento</a>
+          <span class="rest-note">Sushi-focused; excellent sake selection</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Goldfish+Sushi+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Sunh+Fish+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Sunh Fish Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.5</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star half">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Sunh+Fish+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1800 Tribute Rd, Sacramento</a>
+          <span class="rest-note">Korean seafood fusion</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=Sunh+Fish+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Scott%27s+Seafood+on+the+River+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Scott's Seafood on the River</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Scott%27s+Seafood+on+the+River+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 4800 Riverside Blvd, Sacramento</a>
+          <span class="rest-note">Riverside dining; oysters + Dungeness crab</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://scottsseafoodgrill.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Scott%27s+Seafood+on+the+River+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Fish+Face+Poke+Bar+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Fish Face Poke Bar</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.4</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Fish+Face+Poke+Bar+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1801 Capitol Ave, Sacramento</a>
+          <span class="rest-note">Build-your-own poke bowls</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://fishfacepokebar.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Fish+Face+Poke+Bar+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=The+Waterfront+Restaurant+Sacramento" target="_blank" rel="noopener" class="rest-name-link">The Waterfront Restaurant</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=The+Waterfront+Restaurant+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 Crossroads Hotel, Sacramento</a>
+          <span class="rest-note">River views; sustainable seafood</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        
+        <a href="https://maps.google.com/?q=The+Waterfront+Restaurant+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Crawdads+on+the+River+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Crawdads on the River</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.3</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Moderate">$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Crawdads+on+the+River+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1375 Garden Hwy, Sacramento</a>
+          <span class="rest-note">Delta crawfish & American seafood</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.crawdadsontheriver.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Crawdads+on+the+River+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+    <div class="rest-row">
+      <div class="rest-main">
+        <div class="rest-top">
+          <span class="rest-name">
+            <a href="https://maps.google.com/?q=Rio+City+Cafe+Sacramento" target="_blank" rel="noopener" class="rest-name-link">Rio City Cafe</a>
+          </span>
+          <span class="rest-rating-badge">
+            <span class="rating-num">4.2</span>
+            <span class="stars-wrap"><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star full">★</span><span class="star empty">★</span></span>
+          </span>
+          <span class="rest-price" title="Upscale">$$$</span>
+        </div>
+        <div class="rest-bottom">
+          <a href="https://maps.google.com/?q=Rio+City+Cafe+Sacramento" class="rest-address" target="_blank" rel="noopener">📍 1110 Front St, Sacramento</a>
+          <span class="rest-note">Old Sacramento waterfront; great views</span>
+        </div>
+      </div>
+      <div class="rest-actions">
+        <a href="https://www.riocitycafe.com" class="btn-web" target="_blank" rel="noopener">Website</a>
+        <a href="https://maps.google.com/?q=Rio+City+Cafe+Sacramento" class="btn-map" target="_blank" rel="noopener">Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>Ratings sourced from Google Maps and may change over time — always check before visiting.<br>
+  <a href="index.html">← Back to Events</a> · <a href="museums.html">Museums</a> · <a href="trivia.html">Trivia</a> · Sacramento Live</p>
+</footer>
+
+</body>
+</html>

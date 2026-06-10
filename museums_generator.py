@@ -207,6 +207,7 @@ def generate_museums(output_path: Path = _DEFAULT_OUTPUT) -> None:
     <a href="index.html">← Events</a>
     <a href="trivia.html">🎲 Trivia</a>
     <a href="museums.html">🏛️ Museums</a>
+    <a href="restaurants.html">🍽️ Restaurants</a>
   </nav>
 </header>
 

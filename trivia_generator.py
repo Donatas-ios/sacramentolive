@@ -118,6 +118,7 @@ def generate_trivia(output_path: Path = _DEFAULT_OUTPUT, today: date | None = No
   <nav class="site-nav">
     <a href="index.html">← Events</a>
     <a href="museums.html">🏛️ Museums</a>
+    <a href="restaurants.html">🍽️ Restaurants</a>
   </nav>
 </header>
 
