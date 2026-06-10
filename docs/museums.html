@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sacramento Museums — Sacramento Live</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: #f8f5f0; color: #222; }
+
+    /* ── Header ── */
+    .site-header { background: #fff; border-bottom: 3px solid #d4a017;
+                   padding: 24px 24px 18px; text-align: center; }
+    .header-title { display: inline-flex; align-items: center; gap: 14px; justify-content: center; }
+    .capitol-icon { width: 52px; height: 52px; flex-shrink: 0; }
+    .site-header h1 { font-size: 2.2rem; font-weight: 800; color: #1a1a1a; }
+    .site-header p { color: #666; font-size: 0.95rem; margin-top: 6px; }
+    .site-nav { margin-top: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .site-nav a { font-size: 0.85rem; color: #d4a017; font-weight: 600;
+                  text-decoration: none; border: 1px solid #d4a017;
+                  padding: 4px 12px; border-radius: 20px; }
+    .site-nav a:hover { background: #d4a017; color: #fff; }
+
+    /* ── Page layout ── */
+    .page { max-width: 960px; margin: 36px auto; padding: 0 16px; }
+    .page-hero { margin-bottom: 28px; }
+    .page-hero h2 { font-size: 1.7rem; font-weight: 800; color: #1a1a1a; }
+    .page-hero p { color: #666; font-size: 0.95rem; margin-top: 6px; line-height: 1.5; }
+
+    /* ── Map banner ── */
+    .map-banner { display: flex; align-items: center; gap: 12px;
+                  background: #fff; border: 1px solid #e0dbd3; border-radius: 10px;
+                  padding: 14px 18px; margin-bottom: 32px;
+                  box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .map-banner-text { flex: 1; }
+    .map-banner-text strong { font-size: 1rem; color: #1a1a1a; }
+    .map-banner-text span { display: block; font-size: 0.85rem; color: #666; margin-top: 2px; }
+    .btn-map-all { background: #d4a017; color: #fff; font-weight: 700;
+                   font-size: 0.85rem; padding: 9px 18px; border-radius: 8px;
+                   text-decoration: none; white-space: nowrap; }
+    .btn-map-all:hover { background: #b8860b; }
+
+    /* ── Stats row ── */
+    .stats { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+    .stat { background: #fff; border-radius: 8px; padding: 12px 20px;
+             border-left: 4px solid #d4a017;
+             box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .stat-num { font-size: 1.6rem; font-weight: 800; color: #d4a017; }
+    .stat-lbl { font-size: 0.78rem; color: #777; margin-top: 2px; }
+
+    /* ── Museum card ── */
+    .museum-card { background: #fff; border-radius: 12px;
+                   box-shadow: 0 2px 8px rgba(0,0,0,.08);
+                   border-top: 5px solid var(--color);
+                   padding: 22px; margin-bottom: 22px; }
+    .card-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+    .museum-emoji { font-size: 2.4rem; line-height: 1; flex-shrink: 0; }
+    .card-title-block { flex: 1; }
+    .cat-tag { font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+               letter-spacing: .05em; color: var(--color); }
+    .museum-name { font-size: 1.3rem; font-weight: 800; margin: 4px 0; }
+    .museum-name a { color: #1a1a1a; text-decoration: none; }
+    .museum-name a:hover { color: var(--color); text-decoration: underline; }
+    .map-link { font-size: 0.82rem; color: #666; text-decoration: none; }
+    .map-link:hover { color: var(--color); text-decoration: underline; }
+    .museum-desc { font-size: 0.9rem; color: #555; line-height: 1.6;
+                   margin-bottom: 16px; }
+
+    /* ── 3-column info grid ── */
+    .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+                 margin-bottom: 16px; }
+    @media (max-width: 680px) { .card-grid { grid-template-columns: 1fr; } }
+    .card-section h3 { font-size: 0.8rem; font-weight: 700; color: #444;
+                       margin-bottom: 8px; }
+    .hours-table, .price-table { width: 100%; font-size: 0.82rem; border-collapse: collapse; }
+    .hours-table td, .price-table td { padding: 3px 0; vertical-align: top; }
+    .hours-table td:first-child, .price-table td:first-child { color: #555; padding-right: 10px; white-space: nowrap; }
+    .hours-table td:last-child, .price-table td:last-child { font-weight: 600; color: #1a1a1a; }
+    .price-free { font-size: 0.9rem; font-weight: 700; color: #2e7d32; }
+    .price-free-row td { color: #2e7d32 !important; font-weight: 600 !important; }
+    .free-note { font-size: 0.78rem; color: #2e7d32; margin-top: 6px; font-style: italic; }
+    .highlights-list { list-style: none; }
+    .highlights-list li { font-size: 0.82rem; color: #555; padding: 3px 0;
+                          padding-left: 14px; position: relative; }
+    .highlights-list li::before { content: '→'; position: absolute; left: 0; color: var(--color); }
+
+    /* ── Card footer ── */
+    .card-footer { display: flex; gap: 10px; padding-top: 14px;
+                   border-top: 1px solid #f0ece5; }
+    .btn-website { background: var(--color); color: #fff; font-size: 0.82rem;
+                   font-weight: 700; padding: 7px 16px; border-radius: 7px;
+                   text-decoration: none; }
+    .btn-website:hover { opacity: .88; }
+    .btn-map { background: #f4f0ea; color: #555; font-size: 0.82rem;
+               font-weight: 600; padding: 7px 14px; border-radius: 7px;
+               text-decoration: none; }
+    .btn-map:hover { background: #e8e2d8; }
+
+    /* ── Footer ── */
+    footer { text-align: center; padding: 32px 16px; color: #999;
+             font-size: 0.8rem; border-top: 1px solid #e0dbd3; margin-top: 20px; }
+    footer a { color: #d4a017; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-title">
+    <svg class="capitol-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="50" cy="38" rx="11" ry="5" fill="#d4a017" opacity="0.18"/>
+      <path d="M39 38 Q39 18 50 14 Q61 18 61 38Z" fill="#d4a017"/>
+      <rect x="42" y="36" width="16" height="7" fill="#d4a017"/>
+      <rect x="47" y="8" width="6" height="7" rx="1" fill="#d4a017"/>
+      <rect x="48.5" y="4" width="3" height="5" rx="1" fill="#d4a017"/>
+      <rect x="22" y="43" width="56" height="30" fill="#d4a017"/>
+      <rect x="30" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="37" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="60" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="67" y="43" width="3" height="20" fill="#b8860b"/>
+      <rect x="27" y="43" width="46" height="4" fill="#c69214"/>
+      <rect x="18" y="73" width="64" height="4" rx="1" fill="#d4a017"/>
+      <rect x="12" y="77" width="76" height="4" rx="1" fill="#c69214"/>
+      <rect x="6"  y="81" width="88" height="4" rx="1" fill="#d4a017"/>
+      <rect x="46" y="56" width="8" height="17" rx="1" fill="#fff" opacity="0.55"/>
+    </svg>
+    <h1>Sacramento Live</h1>
+  </div>
+  <p>What's happening in Sacramento, CA</p>
+  <nav class="site-nav">
+    <a href="index.html">← Events</a>
+    <a href="trivia.html">🎲 Trivia</a>
+    <a href="museums.html">🏛️ Museums</a>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="page-hero">
+    <h2>🏛️ Sacramento Museums</h2>
+    <p>From Gold Rush history to world-class art — Sacramento's museums span centuries of California's story. Hours and prices are subject to change; always confirm before visiting.</p>
+  </div>
+
+  <div class="map-banner">
+    <div style="font-size:2rem">🗺️</div>
+    <div class="map-banner-text">
+      <strong>View All Museums on a Map</strong>
+      <span>See every museum location in Sacramento at a glance</span>
+    </div>
+    <a href="https://www.google.com/maps/search/museums+in+Sacramento+CA" target="_blank" rel="noopener" class="btn-map-all">Open Map →</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">12</div>
+      <div class="stat-lbl">Museums listed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">12</div>
+      <div class="stat-lbl">With free admission options</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-lbl">Always free</div>
+    </div>
+  </div>
+
+
+<article class="museum-card" style="--color:#9C27B0">
+  <div class="card-header">
+    <span class="museum-emoji">🎨</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Art</span>
+      <h2 class="museum-name">
+        <a href="https://www.crockerart.org" target="_blank" rel="noopener">Crocker Art Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Crocker+Art+Museum+Sacramento" target="_blank" rel="noopener" class="map-link">📍 216 O St, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">The oldest public art museum in the American West, featuring Californian, European, and Asian art across a landmark Victorian building and modern expansion.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Tuesday–Friday</td><td>10 AM – 5 PM</td></tr>
+<tr><td>Thursday</td><td>10 AM – 9 PM</td></tr>
+<tr><td>Saturday–Sunday</td><td>10 AM – 5 PM</td></tr>
+<tr><td>Monday</td><td>Closed</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$15</td></tr>
+<tr class=''><td>Seniors (65+)</td><td>$12</td></tr>
+<tr class=''><td>Students (w/ ID)</td><td>$10</td></tr>
+<tr class='price-free-row'><td>Children under 7</td><td>Free</td></tr>
+<tr class='price-free-row'><td>Members</td><td>Free</td></tr>
+</table><p class='free-note'>✨ Free every Sunday 10 AM–1 PM</p>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>19th-century California art</li><li>German masters collection</li><li>Works by Wayne Thiebaud</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.crockerart.org" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Crocker+Art+Museum+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#795548">
+  <div class="card-header">
+    <span class="museum-emoji">🚂</span>
+    <div class="card-title-block">
+      <span class="cat-tag">History</span>
+      <h2 class="museum-name">
+        <a href="https://www.californiastaterailroadmuseum.org" target="_blank" rel="noopener">California State Railroad Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=California+State+Railroad+Museum+Sacramento" target="_blank" rel="noopener" class="map-link">📍 125 I St, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">One of the finest railroad museums in North America, with 21 restored locomotives and cars spanning the 1860s transcontinental railroad era through the 20th century.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Daily</td><td>10 AM – 5 PM</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$12</td></tr>
+<tr class=''><td>Youth (6–17)</td><td>$6</td></tr>
+<tr class='price-free-row'><td>Children under 6</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>21 restored locomotives</li><li>Steam train rides (seasonal)</li><li>Gold Rush-era history</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.californiastaterailroadmuseum.org" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=California+State+Railroad+Museum+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#795548">
+  <div class="card-header">
+    <span class="museum-emoji">🏛️</span>
+    <div class="card-title-block">
+      <span class="cat-tag">History</span>
+      <h2 class="museum-name">
+        <a href="https://www.sachistorymuseum.org" target="_blank" rel="noopener">Sacramento History Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Sacramento+History+Museum" target="_blank" rel="noopener" class="map-link">📍 101 I St, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">Located in Old Sacramento's replica 1854 City Hall, the museum chronicles Sacramento's transformation from Gold Rush boomtown to California's capital city.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Daily</td><td>10 AM – 5 PM</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$10</td></tr>
+<tr class=''><td>Seniors / Students</td><td>$8</td></tr>
+<tr class=''><td>Children (6–17)</td><td>$5</td></tr>
+<tr class='price-free-row'><td>Children under 6</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>Gold Rush artifacts</li><li>Original city documents</li><li>Underground Sacramento tours</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.sachistorymuseum.org" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Sacramento+History+Museum" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#d4a017">
+  <div class="card-header">
+    <span class="museum-emoji">🐻</span>
+    <div class="card-title-block">
+      <span class="cat-tag">History & Culture</span>
+      <h2 class="museum-name">
+        <a href="https://www.californiamuseum.org" target="_blank" rel="noopener">California Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=California+Museum+Sacramento" target="_blank" rel="noopener" class="map-link">📍 1020 O St, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">California's official museum, celebrating the stories, people, and innovations that define the Golden State — from Native California to modern cultural icons.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Tuesday–Saturday</td><td>10 AM – 5 PM</td></tr>
+<tr><td>Sunday</td><td>12 PM – 5 PM</td></tr>
+<tr><td>Monday</td><td>Closed</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$12</td></tr>
+<tr class=''><td>Seniors (60+)</td><td>$9</td></tr>
+<tr class=''><td>Youth (6–13)</td><td>$8</td></tr>
+<tr class='price-free-row'><td>Children under 6</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>California Hall of Fame</li><li>Native Californians exhibit</li><li>Women's suffrage gallery</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.californiamuseum.org" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=California+Museum+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#FF5722">
+  <div class="card-header">
+    <span class="museum-emoji">⚔️</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Historic Site</span>
+      <h2 class="museum-name">
+        <a href="https://www.parks.ca.gov/?page_id=485" target="_blank" rel="noopener">Sutter's Fort State Historic Park</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Sutter%27s+Fort+State+Historic+Park+Sacramento" target="_blank" rel="noopener" class="map-link">📍 2701 L St, Sacramento, CA 95816</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">The oldest restored fort in the American West and the first non-indigenous settlement in the Central Valley, founded by John Sutter in 1839 — a key Gold Rush landmark.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Daily</td><td>10 AM – 5 PM</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$7</td></tr>
+<tr class=''><td>Youth (6–17)</td><td>$3</td></tr>
+<tr class='price-free-row'><td>Children under 6</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>Restored 1840s buildings</li><li>Living history demonstrations</li><li>Gold Rush artifacts</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.parks.ca.gov/?page_id=485" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Sutter%27s+Fort+State+Historic+Park+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#3F51B5">
+  <div class="card-header">
+    <span class="museum-emoji">🏡</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Historic Site</span>
+      <h2 class="museum-name">
+        <a href="https://www.parks.ca.gov/?page_id=486" target="_blank" rel="noopener">Governor's Mansion State Historic Park</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Governor%27s+Mansion+State+Historic+Park+Sacramento" target="_blank" rel="noopener" class="map-link">📍 1526 H St, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">An elegant 1877 Victorian mansion that served as home to 13 California governors from 1903 to 1967, furnished with original Victorian antiques and artifacts.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Saturday–Sunday</td><td>10 AM – 5 PM (tours on the hour)</td></tr>
+<tr><td>Monday–Friday</td><td>Closed</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$7</td></tr>
+<tr class=''><td>Youth (6–17)</td><td>$3</td></tr>
+<tr class='price-free-row'><td>Children under 6</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>13 governors' furnishings</li><li>Victorian architecture</li><li>Guided mansion tours</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.parks.ca.gov/?page_id=486" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Governor%27s+Mansion+State+Historic+Park+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#d4a017">
+  <div class="card-header">
+    <span class="museum-emoji">🏛️</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Historic Site</span>
+      <h2 class="museum-name">
+        <a href="https://capitolmuseum.ca.gov" target="_blank" rel="noopener">California State Capitol Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=California+State+Capitol+Museum+Sacramento" target="_blank" rel="noopener" class="map-link">📍 1315 10th St, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">Explore the restored legislative chambers of the 1869 California State Capitol, including the original Governor's Office and restored 19th-century assembly and senate rooms.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Daily</td><td>9 AM – 5 PM</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <p class='price-free'>🎟️ Always Free</p>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>Restored 1906 legislature chambers</li><li>Self-guided tours</li><li>Capitol Park gardens</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://capitolmuseum.ca.gov" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=California+State+Capitol+Museum+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#F44336">
+  <div class="card-header">
+    <span class="museum-emoji">🚗</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Transportation</span>
+      <h2 class="museum-name">
+        <a href="https://www.calautomuseum.org" target="_blank" rel="noopener">California Automobile Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=California+Automobile+Museum+Sacramento" target="_blank" rel="noopener" class="map-link">📍 2200 Front St, Sacramento, CA 95818</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">Over 150 historic vehicles from the dawn of the automobile age to modern classics, celebrating California car culture from 1885 to the present day.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Monday–Sunday</td><td>10 AM – 5 PM</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$12</td></tr>
+<tr class=''><td>Seniors (60+)</td><td>$10</td></tr>
+<tr class=''><td>Youth (5–17)</td><td>$7</td></tr>
+<tr class='price-free-row'><td>Children under 5</td><td>Free</td></tr>
+</table><p class='free-note'>✨ Free first Sunday of each month</p>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>1885–present vehicles</li><li>Rare California customs</li><li>Rotating special exhibitions</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.calautomuseum.org" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=California+Automobile+Museum+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#009688">
+  <div class="card-header">
+    <span class="museum-emoji">🎪</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Children</span>
+      <h2 class="museum-name">
+        <a href="https://www.sackids.org" target="_blank" rel="noopener">Sacramento Children's Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Sacramento+Children%27s+Museum" target="_blank" rel="noopener" class="map-link">📍 2701 Prospect Park Dr, Rancho Cordova, CA 95670</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">Hands-on interactive exhibits designed for children 8 and under, with themed play zones covering science, culture, health, and creativity.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Tuesday–Sunday</td><td>9 AM – 4:30 PM</td></tr>
+<tr><td>Monday</td><td>Closed</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Children & Adults</td><td>$11</td></tr>
+<tr class='price-free-row'><td>Under 1 year</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>Tot Spot for under 2s</li><li>Pretend play zones</li><li>Rotating STEM exhibits</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.sackids.org" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Sacramento+Children%27s+Museum" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#d4a017">
+  <div class="card-header">
+    <span class="museum-emoji">🏦</span>
+    <div class="card-title-block">
+      <span class="cat-tag">History</span>
+      <h2 class="museum-name">
+        <a href="https://www.wellsfargohistory.com/museums/sacramento/" target="_blank" rel="noopener">Wells Fargo History Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Wells+Fargo+History+Museum+Sacramento" target="_blank" rel="noopener" class="map-link">📍 400 Capitol Mall, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">Free museum inside the Wells Fargo Center featuring original Gold Rush artifacts, a genuine 19th-century Concord stagecoach, and the story of California banking history.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Monday–Friday</td><td>9 AM – 5 PM</td></tr>
+<tr><td>Saturday–Sunday</td><td>Closed</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <p class='price-free'>🎟️ Always Free</p>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>Original Concord stagecoach</li><li>Gold Rush nuggets & scales</li><li>Telegraph artifacts</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.wellsfargohistory.com/museums/sacramento/" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Wells+Fargo+History+Museum+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#2196F3">
+  <div class="card-header">
+    <span class="museum-emoji">✈️</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Science</span>
+      <h2 class="museum-name">
+        <a href="https://www.sacsciencecenter.org" target="_blank" rel="noopener">Sacramento Science Center & Air Museum</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Sacramento+Air+Museum+McClellan" target="_blank" rel="noopener" class="map-link">📍 3200 Freedom Park Dr, McClellan, CA 95652</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">Military aviation artifacts and science exhibits at McClellan Air Force Base, featuring vintage aircraft from WWII to the Cold War era and hands-on science displays.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Tuesday–Sunday</td><td>9 AM – 4 PM</td></tr>
+<tr><td>Monday</td><td>Closed</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$12</td></tr>
+<tr class=''><td>Seniors / Military</td><td>$10</td></tr>
+<tr class=''><td>Youth (5–17)</td><td>$8</td></tr>
+<tr class='price-free-row'><td>Children under 5</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>WWII aircraft</li><li>SR-71 Blackbird cockpit</li><li>Cold War-era jets</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.sacsciencecenter.org" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Sacramento+Air+Museum+McClellan" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+<article class="museum-card" style="--color:#795548">
+  <div class="card-header">
+    <span class="museum-emoji">🏠</span>
+    <div class="card-title-block">
+      <span class="cat-tag">Historic Site</span>
+      <h2 class="museum-name">
+        <a href="https://www.parks.ca.gov/?page_id=487" target="_blank" rel="noopener">Leland Stanford Mansion State Historic Park</a>
+      </h2>
+      <p class="museum-address">
+        <a href="https://maps.google.com/?q=Leland+Stanford+Mansion+Sacramento" target="_blank" rel="noopener" class="map-link">📍 800 N St, Sacramento, CA 95814</a>
+      </p>
+    </div>
+  </div>
+  <p class="museum-desc">The restored 1856 mansion of railroad baron and California Governor Leland Stanford — a key figure in the Transcontinental Railroad and founder of Stanford University.</p>
+  <div class="card-grid">
+    <div class="card-section">
+      <h3>⏰ Hours</h3>
+      <table class='hours-table'><tr><td>Thursday–Sunday</td><td>10 AM – 4 PM (hourly tours)</td></tr>
+<tr><td>Monday–Wednesday</td><td>Closed</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>🎟️ Admission</h3>
+      <table class='price-table'><tr class=''><td>Adults</td><td>$7</td></tr>
+<tr class=''><td>Youth (6–17)</td><td>$3</td></tr>
+<tr class='price-free-row'><td>Children under 6</td><td>Free</td></tr>
+</table>
+    </div>
+    <div class="card-section">
+      <h3>⭐ Highlights</h3>
+      <ul class="highlights-list"><li>Leland Stanford's personal artifacts</li><li>Restored Victorian rooms</li><li>Transcontinental Railroad history</li></ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <a href="https://www.parks.ca.gov/?page_id=487" class="btn-website" target="_blank" rel="noopener">Visit Website →</a>
+    <a href="https://maps.google.com/?q=Leland+Stanford+Mansion+Sacramento" class="btn-map" target="_blank" rel="noopener">📍 Map</a>
+  </div>
+</article>
+</main>
+
+<footer>
+  <p>Hours and prices may change — always verify on the museum's website before visiting.<br>
+  <a href="index.html">← Back to Events</a> · <a href="trivia.html">Sacramento Trivia</a> · Sacramento Live</p>
+</footer>
+
+</body>
+</html>

@@ -67,6 +67,7 @@ def generate_trivia(output_path: Path = _DEFAULT_OUTPUT, today: date | None = No
     .site-header h1 {{ font-size: 2rem; font-weight: 800; color: #1a1a1a; }}
     .site-header p {{ color: #666; font-size: 0.95rem; margin-top: 4px; }}
     .site-nav {{ margin-top: 10px; }}
+    .site-nav {{ display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }}
     .site-nav a {{ font-size: 0.85rem; color: #d4a017; font-weight: 600;
                   text-decoration: none; border: 1px solid #d4a017;
                   padding: 4px 12px; border-radius: 20px; }}
@@ -115,7 +116,8 @@ def generate_trivia(output_path: Path = _DEFAULT_OUTPUT, today: date | None = No
   <h1>Sacramento Live</h1>
   <p>What's happening in Sacramento, CA — next 14 days</p>
   <nav class="site-nav">
-    <a href="index.html">← Back to Events</a>
+    <a href="index.html">← Events</a>
+    <a href="museums.html">🏛️ Museums</a>
   </nav>
 </header>
 
