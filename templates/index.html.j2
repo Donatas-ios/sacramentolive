@@ -63,6 +63,13 @@
     .cat-nightlife { --cat-color: #3F51B5; }
     .cat-festivals { --cat-color: #F44336; }
 
+    /* Nav */
+    .site-nav { margin-top: 10px; }
+    .site-nav a { font-size: 0.85rem; color: #d4a017; font-weight: 600;
+                  text-decoration: none; border: 1px solid #d4a017;
+                  padding: 4px 12px; border-radius: 20px; }
+    .site-nav a:hover { background: #d4a017; color: #fff; }
+
     /* Footer */
     footer { text-align: center; padding: 32px 16px; color: #999;
              font-size: 0.8rem; border-top: 1px solid #e0dbd3; margin-top: 40px; }
@@ -73,6 +80,9 @@
 <header class="site-header">
   <h1>Sacramento Live</h1>
   <p>What's happening in Sacramento, CA — next 14 days</p>
+  <nav class="site-nav">
+    <a href="trivia.html">🎲 Sacramento Trivia</a>
+  </nav>
 </header>
 
 {% for day in days %}
